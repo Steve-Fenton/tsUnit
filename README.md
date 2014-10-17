@@ -18,6 +18,7 @@ It is so easy, you don't even have to download and unzip anything. It is just on
 Please start a discussion if you think a feature is missing or doesn't work as expected.
 Example
 
+```TypeScript
     /// <reference path="tsUnit.ts" />
     /// <reference path="Calculations.ts" />
 
@@ -43,5 +44,5 @@ Example
 
     // Use the built in results display
     test.showResults(document.getElementById('results'), test.run());
-
+```
 

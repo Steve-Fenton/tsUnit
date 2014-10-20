@@ -47,4 +47,3 @@ Example
     // Use the built in results display
     test.showResults(document.getElementById('results'), test.run());
 ```
-

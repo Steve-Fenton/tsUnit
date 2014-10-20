@@ -22,25 +22,27 @@ Example
     /// <reference path="tsUnit.ts" />
     /// <reference path="Calculations.ts" />
 
-    class SimpleMathTests extends tsUnit.TestClass {
-
-        private target = new Calculations.SimpleMath();
-
-        addTwoNumbersWith1And2Expect3() {
-            var result = this.target.addTwoNumbers(1, 2);
-
-            this.areIdentical(3, result);
-        }
-
-        addTwoNumbersWith3And2Expect5() {
-            var result = this.target.addTwoNumbers(3, 2);
-
-            this.areIdentical(4, result); // Deliberate error
+    module CalculationsTests {
+        export class SimpleMathTests extends tsUnit.TestClass {
+    
+            private target = new Calculations.SimpleMath();
+    
+            addTwoNumbersWith1And2Expect3() {
+                var result = this.target.addTwoNumbers(1, 2);
+    
+                this.areIdentical(3, result);
+            }
+    
+            addTwoNumbersWith3And2Expect5() {
+                var result = this.target.addTwoNumbers(3, 2);
+    
+                this.areIdentical(4, result); // Deliberate error
+            }
         }
     }
 
     // new instance of tsUnit - pass in modules that contain test classes
-    var test = new tsUnit.Test(SimpleMathTests);
+    var test = new tsUnit.Test(CalculationsTests);
 
     // Use the built in results display
     test.showResults(document.getElementById('results'), test.run());

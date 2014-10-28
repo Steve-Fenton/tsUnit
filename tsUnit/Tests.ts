@@ -227,8 +227,10 @@ module Tests {
         }
 
         withDifferentNumbers() {
-            this.throws(function () {
-                this.areIdentical(5, 4);
+            this.throws({
+                fn: function () {
+                    this.areIdentical(5, 4);
+                }
             });
         }
 
@@ -237,8 +239,10 @@ module Tests {
         }
 
         withDifferentStrings() {
-            this.throws(function () {
-                this.areIdentical('Hello', 'Jello');
+            this.throws({
+                fn: function () {
+                    this.areIdentical('Hello', 'Jello');
+                }
             });
         }
 
@@ -249,16 +253,20 @@ module Tests {
         }
 
         withDifferentInstance() {
-            this.throws(function () {
-                var x = { test: 'Object' };
-                var y = { test: 'Object' };
-                this.areIdentical(x, y);
+            this.throws({
+                fn: function () {
+                    var x = { test: 'Object' };
+                    var y = { test: 'Object' };
+                    this.areIdentical(x, y);
+                }
             });
         }
 
         withDifferentTypes() {
-            this.throws(function () {
-                this.areIdentical('1', 1);
+            this.throws({
+                fn: function () {
+                    this.areIdentical('1', 1);
+                }
             });
         }
 
@@ -273,16 +281,20 @@ module Tests {
             var x = [1, 2, 3, 5];
             var y = [1, 2, 4, 5];
 
-            this.throws(function () {
-                this.areCollectionsIdentical(x, y);
+            this.throws({
+                fn: function () {
+                    this.areCollectionsIdentical(x, y);
+                }
             });
         }
     }
 
     export class AssertAreNotIdenticalTests extends tsUnit.TestClass {
         withIdenticalNumbers() {
-            this.throws(function () {
-                this.areNotIdentical(4, 4);
+            this.throws({
+                fn: function () {
+                    this.areNotIdentical(4, 4);
+                }
             });
         }
 
@@ -291,8 +303,10 @@ module Tests {
         }
 
         withIdenticalStrings() {
-            this.throws(function () {
-                this.areNotIdentical('Hello', 'Hello');
+            this.throws({
+                fn: function () {
+                    this.areNotIdentical('Hello', 'Hello');
+                }
             });
         }
 
@@ -301,10 +315,12 @@ module Tests {
         }
 
         withSameInstance() {
-            this.throws(function () {
-                var x = { test: 'Object' };
-                var y = x;
-                this.areNotIdentical(x, y);
+            this.throws({
+                fn: function () {
+                    var x = { test: 'Object' };
+                    var y = x;
+                    this.areNotIdentical(x, y);
+                }
             });
         }
 
@@ -322,8 +338,10 @@ module Tests {
             var x = [1, 2, 3, 5];
             var y = [1, 2, 3, 5];
 
-            this.throws(function () {
-                this.areCollectionsNotIdentical(x, y);
+            this.throws({
+                fn: function () {
+                    this.areCollectionsNotIdentical(x, y);
+                }
             });
         }
 
@@ -341,8 +359,10 @@ module Tests {
         }
 
         withBoolFalse() {
-            this.throws(function () {
-                this.isTrue(false);
+            this.throws({
+                fn: function () {
+                    this.isTrue(false);
+                }
             });
         }
     }
@@ -353,8 +373,10 @@ module Tests {
         }
 
         withBoolTrue() {
-            this.throws(function () {
-                this.isFalse(true);
+            this.throws({
+                fn: function () {
+                    this.isFalse(true);
+                }
             });
         }
     }
@@ -377,32 +399,42 @@ module Tests {
         }
 
         withBoolFalse() {
-            this.throws(function () {
-                this.isTruthy(false);
+            this.throws({
+                fn: function () {
+                    this.isTruthy(false);
+                }
             });
         }
 
         withEmptyString() {
-            this.throws(function () {
-                this.isTruthy('');
+            this.throws({
+                fn: function () {
+                    this.isTruthy('');
+                }
             });
         }
 
         withZero() {
-            this.throws(function () {
-                this.isTruthy(0);
+            this.throws({
+                fn: function () {
+                    this.isTruthy(0);
+                }
             });
         }
 
         withNull() {
-            this.throws(function () {
-                this.isTruthy(null);
+            this.throws({
+                fn: function () {
+                    this.isTruthy(null);
+                }
             });
         }
 
         withUndefined() {
-            this.throws(function () {
-                this.isTruthy(undefined);
+            this.throws({
+                fn: function () {
+                    this.isTruthy(undefined);
+                }
             });
         }
     }
@@ -429,34 +461,44 @@ module Tests {
         }
 
         withBoolTrue() {
-            this.throws(function () {
-                this.isFalsey(true);
+            this.throws({
+                fn: function () {
+                    this.isFalsey(true);
+                }
             });
         }
 
         withNonEmptyString() {
-            this.throws(function () {
-                this.isFalsey('Hello');
+            this.throws({
+                fn: function () {
+                    this.isFalsey('Hello');
+                }
             });
         }
 
         withTrueString() {
-            this.throws(function () {
-                this.isFalsey('True');
+            this.throws({
+                fn: function () {
+                    this.isFalsey('True');
+                }
             });
         }
 
         with1() {
-            this.throws(function () {
-                this.isFalsey(1);
+            this.throws({
+                fn: function () {
+                    this.isFalsey(1);
+                }
             });
         }
     }
 
     export class FailTests extends tsUnit.TestClass {
         expectFails() {
-            this.throws(function () {
-                this.fail();
+            this.throws({
+                fn: function () {
+                    this.fail();
+                }
             });
         }
     }
@@ -470,20 +512,26 @@ module Tests {
         }
 
         withSlowFunction() {
-            this.throws(() => {
-                this.executesWithin(() => {
-                    var start = window.performance.now();
-                    while ((window.performance.now() - start) < 101) { }
-                }, 100);
+            this.throws({
+                fn: () => {
+                    this.executesWithin(() => {
+                        var start = window.performance.now();
+                        while ((window.performance.now() - start) < 101) {
+                        }
+                    }, 100);
+                }
             });
         }
 
         withFailingFunction() {
-            this.throws(() => {
-                this.executesWithin(() => {
-                    var start = window.performance.now();
-                    throw 'Error';
-                }, 100);
+            this.throws({
+                fn:
+                () => {
+                    this.executesWithin(() => {
+                        var start = window.performance.now();
+                        throw 'Error';
+                    }, 100);
+                }
             });
         }
     }
@@ -516,6 +564,72 @@ module Tests {
 
         normalTest() {
             this.isTrue(true);
+        }
+    }
+
+    export class ThrowsTests extends tsUnit.TestClass {
+        functionsFails() {
+            this.throws({
+                fn: () => {
+                    throw Error('throw some error');
+                }
+            });
+        }
+
+        innerFunctionsDoesntFails() {
+            this.throws({
+                fn: () => this.throws({
+                    fn: () => {
+                        var a = 0;
+                    }
+                })
+            });
+        }
+
+        functionsFailsWithSpecificErrorMessage() {
+            this.throws({
+                fn: () => {
+                    throw Error('throw some error');
+                },
+                exceptionString: 'throw some error'
+            });
+        }
+
+        functionsDoesntFailsWithMessage() {
+            this.throws({
+                fn: () => this.throws({
+                    fn: () => {
+                        var a = 0;
+                    },
+                    message: 'with message'
+                }),
+                exceptionString: "did not throw an error. with message"
+            });
+        }
+
+        functionsFailsWithDifferentErrorMessage() {
+            this.throws({
+                fn: () => this.throws({
+                    fn: () => this.throws({
+                        fn: () => {
+                            throw new Error('throw different error');
+                        }
+                    }),
+                    exceptionString: 'throw some error'
+                })
+            });
+        }
+
+        functionsFailsWithUndefinedParam() {
+            this.throws({
+                fn: () => this.throws(undefined)
+            });
+        }
+
+        functionsFailsWithNullParam() {
+            this.throws({
+                fn: () => this.throws(null)
+            });
         }
     }
 }

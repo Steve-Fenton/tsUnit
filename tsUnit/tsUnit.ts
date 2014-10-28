@@ -153,9 +153,9 @@ module tsUnit {
     }
 
     export interface IThrowsParameters {
-        fn: { (): void; };
+        fn: () => void;
         message?: string;
-        exceptionString?: string;
+        errorString?: string;
     }
 
     export class RunAllTests implements ITestRunLimiter {
@@ -375,41 +375,35 @@ module tsUnit {
         }
 
         throws(params: IThrowsParameters);
-        throws(actual: { (): void; }, message?: string);
-        throws(a: any, message = '', exceptionString = '') {
+        throws(actual: () => void, message?: string);
+        throws(a: any, message = '', errorString = '') {
             var actual: () => void;
 
             if (a.fn) {
                 actual = a.fn;
                 message = a.message;
-                exceptionString = a.exceptionString;
+                errorString = a.exceptionString;
             }
 
             var isThrown = false;
             try {
                 actual();
             } catch (ex) {
-                if (exceptionString) {
-                    if (ex.message === exceptionString) {
-                        isThrown = true;
-                    } else {
-                        throw this.getError('different error string than supplied');
-                    }
-                } else {
+                if (!errorString || ex.message === errorString) {
                     isThrown = true;
+                }
+
+                if (errorString && ex.message !== errorString) {
+                    throw this.getError('different error string than supplied');
                 }
 
             }
             if (!isThrown) {
-                if (message) {
-                    throw this.getError('did not throw an error', message);
-                } else {
-                    throw this.getError('did not throw an error');
-                }
+                throw this.getError('did not throw an error', message || '');
             }
         }
 
-        executesWithin(actual: { (): void }, timeLimit: number, message: string = null): void {
+        executesWithin(actual: () => void, timeLimit: number, message: string = null): void {
             function getTime() {
                 return window.performance.now();
             }
@@ -422,8 +416,7 @@ module tsUnit {
 
             try {
                 actual();
-            }
-            catch (ex) {
+            } catch (ex) {
                 throw this.getError('isExecuteTimeLessThanLimit fails when given code throws an exception: "' + ex + '"', message);
             }
 

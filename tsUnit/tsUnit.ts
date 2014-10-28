@@ -374,36 +374,38 @@ module tsUnit {
             }
         }
 
-        throws(params: IThrowsParameters) {
-            if (params) {
-                var isThrown = false;
-                try {
-                    if (params.fn) {
-                        params.fn();
-                    } else {
-                        throw this.getError('no actual callback supplied');
-                    }
-                } catch (ex) {
-                    if ((params.exceptionString !== undefined) && (params.exceptionString !== null)) {
-                        if (ex.message === params.exceptionString) {
-                            isThrown = true;
-                        } else {
-                            throw this.getError('different error string than supplied');
-                        }
-                    } else {
-                        isThrown = true;
-                    }
+        throws(params: IThrowsParameters);
+        throws(actual: { (): void; }, message?: string);
+        throws(a: any, message = '', exceptionString = '') {
+            var actual: () => void;
 
-                }
-                if (!isThrown) {
-                    if (params.message) {
-                        throw this.getError('did not throw an error', params.message);
+            if (a.fn) {
+                actual = a.fn;
+                message = a.message;
+                exceptionString = a.exceptionString;
+            }
+
+            var isThrown = false;
+            try {
+                actual();
+            } catch (ex) {
+                if (exceptionString) {
+                    if (ex.message === exceptionString) {
+                        isThrown = true;
                     } else {
-                        throw this.getError('did not throw an error');
+                        throw this.getError('different error string than supplied');
                     }
+                } else {
+                    isThrown = true;
                 }
-            } else {
-                throw 'no parameters supplied';
+
+            }
+            if (!isThrown) {
+                if (message) {
+                    throw this.getError('did not throw an error', message);
+                } else {
+                    throw this.getError('did not throw an error');
+                }
             }
         }
 

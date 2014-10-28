@@ -152,6 +152,12 @@ module tsUnit {
         isParametersSetActive(paramatersSetNumber: number): boolean;
     }
 
+    export interface IThrowsParameters {
+        fn: { (): void; };
+        message?: string;
+        exceptionString?: string;
+    }
+
     export class RunAllTests implements ITestRunLimiter {
         isTestsGroupActive(groupName: string): boolean {
             return true;
@@ -368,15 +374,36 @@ module tsUnit {
             }
         }
 
-        throws(actual: { (): void; }, message = '') {
-            var isThrown = false;
-            try {
-                actual();
-            } catch (ex) {
-                isThrown = true;
-            }
-            if (!isThrown) {
-                throw this.getError('did not throw an error', message);
+        throws(params: IThrowsParameters) {
+            if (params) {
+                var isThrown = false;
+                try {
+                    if (params.fn) {
+                        params.fn();
+                    } else {
+                        throw this.getError('no actual callback supplied');
+                    }
+                } catch (ex) {
+                    if ((params.exceptionString !== undefined) && (params.exceptionString !== null)) {
+                        if (ex.message === params.exceptionString) {
+                            isThrown = true;
+                        } else {
+                            throw this.getError('different error string than supplied');
+                        }
+                    } else {
+                        isThrown = true;
+                    }
+
+                }
+                if (!isThrown) {
+                    if (params.message) {
+                        throw this.getError('did not throw an error', params.message);
+                    } else {
+                        throw this.getError('did not throw an error');
+                    }
+                }
+            } else {
+                throw 'no parameters supplied';
             }
         }
 
@@ -410,7 +437,7 @@ module tsUnit {
             throw this.getError('fail', message);
         }
 
-        private getError(resultMessage: string, message: string) {
+        private getError(resultMessage: string, message: string = '') {
             if (message) {
                 return new Error(resultMessage + '. ' + message);
             }

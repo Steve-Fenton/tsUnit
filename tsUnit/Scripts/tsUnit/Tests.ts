@@ -1,4 +1,4 @@
-/// <reference path="tsUnit.ts" />
+/// <reference path="./tsUnit.ts" />
 
 module Tests {
     export class RealClass {

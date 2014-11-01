@@ -1,6 +1,6 @@
-/// <reference path="tsUnit.ts" />
-/// <reference path="Tests.ts" />
-/// <reference path="BadTests.ts" />
+/// <reference path="./Scripts/tsUnit/tsUnit.ts" />
+/// <reference path="./Scripts/tsUnit/Tests.ts" />
+/// <reference path="./Scripts/tsUnit/BadTests.ts" />
 
 window.onload = function () {
     // Instantiate tsUnit and pass in modules that contain tests

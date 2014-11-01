@@ -27,13 +27,13 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
-    <TypeScriptCompile Include="BadTests.ts" />
-    <TypeScriptCompile Include="Tests.ts" />
-    <TypeScriptCompile Include="tsUnit.ts" />
+    <TypeScriptCompile Include="Scripts\tsUnit\BadTests.ts" />
+    <TypeScriptCompile Include="Scripts\tsUnit\Tests.ts" />
+    <TypeScriptCompile Include="Scripts\tsUnit\tsUnit.ts">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </TypeScriptCompile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="icons\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -67,4 +67,7 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>XCOPY $(ProjectDir)Scripts\tsUnit\tsUnit.ts $(SolutionDir)tsUnit.Packager\content\Scripts\tsUnit /y</PostBuildEvent>
+  </PropertyGroup>
 </Project>

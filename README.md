@@ -3,6 +3,10 @@ tsUnit
 
 tsUnit is a unit testing framework for TypeScript, written in TypeScript. It allows you to encapsulate your test functions in classes and modules.
 
+Install via NuGet:
+
+```PM> Install-Package tsUnit ```
+
 tsUnit is a TypeScript unit testing framework that allows you to define your unit tests inside TypeScript classes and modules.
 
 tsUnit has built-in assertion helpers you can use in your test.

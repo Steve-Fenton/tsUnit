@@ -473,7 +473,8 @@ module Tests {
             this.throws(() => {
                 this.executesWithin(() => {
                     var start = window.performance.now();
-                    while ((window.performance.now() - start) < 101) { }
+                    while ((window.performance.now() - start) < 101) {
+                    }
                 }, 100);
             });
         }
@@ -516,6 +517,65 @@ module Tests {
 
         normalTest() {
             this.isTrue(true);
+        }
+    }
+
+    export class ThrowsTests extends tsUnit.TestClass {
+        functionsFails() {
+            this.throws(() => {
+                throw Error('throw some error');
+            });
+        }
+
+        innerFunctionsDoesntFails() {
+            this.throws(
+                () => this.throws(
+                    () => {
+                        var a = 0;
+                    })
+                );
+        }
+
+        functionsFailsWithSpecificErrorMessage() {
+            this.throws({
+                fn: () => {
+                    throw Error('throw some error');
+                },
+                exceptionString: 'throw some error'
+            });
+        }
+
+        functionsDoesntFailsWithMessage() {
+            this.throws({
+                fn: () => this.throws({
+                    fn: () => {
+                        var a = 0;
+                    },
+                    message: 'with message'
+                }),
+                exceptionString: "did not throw an error. with message"
+            });
+        }
+
+        functionsFailsWithDifferentErrorMessage() {
+            this.throws({
+                fn: () => this.throws({
+                    fn: () => this.throws({
+                        fn: () => {
+                            throw new Error('throw different error');
+                        }
+                    }),
+                    exceptionString: 'throw some error'
+                })
+            });
+        }
+
+        functionsFailsWithUndefinedParam() {
+            this.throws(() => this.throws(undefined));
+        }
+
+        functionsFailsWithNullParam() {
+            this.throws(() => this.throws(null));
         }
     }
 }

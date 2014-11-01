@@ -152,6 +152,12 @@ module tsUnit {
         isParametersSetActive(paramatersSetNumber: number): boolean;
     }
 
+    export interface IThrowsParameters {
+        fn: () => void;
+        message?: string;
+        errorString?: string;
+    }
+
     export class RunAllTests implements ITestRunLimiter {
         isTestsGroupActive(groupName: string): boolean {
             return true;
@@ -368,19 +374,36 @@ module tsUnit {
             }
         }
 
-        throws(actual: { (): void; }, message = '') {
+        throws(params: IThrowsParameters);
+        throws(actual: () => void, message?: string);
+        throws(a: any, message = '', errorString = '') {
+            var actual: () => void;
+
+            if (a.fn) {
+                actual = a.fn;
+                message = a.message;
+                errorString = a.exceptionString;
+            }
+
             var isThrown = false;
             try {
                 actual();
             } catch (ex) {
-                isThrown = true;
+                if (!errorString || ex.message === errorString) {
+                    isThrown = true;
+                }
+
+                if (errorString && ex.message !== errorString) {
+                    throw this.getError('different error string than supplied');
+                }
+
             }
             if (!isThrown) {
-                throw this.getError('did not throw an error', message);
+                throw this.getError('did not throw an error', message || '');
             }
         }
 
-        executesWithin(actual: { (): void }, timeLimit: number, message: string = null): void {
+        executesWithin(actual: () => void, timeLimit: number, message: string = null): void {
             function getTime() {
                 return window.performance.now();
             }
@@ -393,8 +416,7 @@ module tsUnit {
 
             try {
                 actual();
-            }
-            catch (ex) {
+            } catch (ex) {
                 throw this.getError('isExecuteTimeLessThanLimit fails when given code throws an exception: "' + ex + '"', message);
             }
 
@@ -410,7 +432,7 @@ module tsUnit {
             throw this.getError('fail', message);
         }
 
-        private getError(resultMessage: string, message: string) {
+        private getError(resultMessage: string, message: string = '') {
             if (message) {
                 return new Error(resultMessage + '. ' + message);
             }

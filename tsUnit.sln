@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tsUnit.Examples", "tsUnit.E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tsUnit.External.Examples", "tsUnit.External.Examples\tsUnit.External.Examples.csproj", "{DA6EF2A8-EB7D-475E-9AF5-D215732920C7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{1AAB0A16-1431-48E2-9AD7-5E915E9BA57F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet Packages", "NuGet Packages", "{264E5159-8DD7-49F0-B2F7-9222D3365FCF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +46,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0451BAEF-DF2E-4B98-8644-94EE9415E389} = {264E5159-8DD7-49F0-B2F7-9222D3365FCF}
+		{E31C1A48-7177-49CB-9690-85C6D4EA05A7} = {264E5159-8DD7-49F0-B2F7-9222D3365FCF}
+		{41008459-C342-4DE4-ABD3-1076CF50D3CF} = {1AAB0A16-1431-48E2-9AD7-5E915E9BA57F}
+		{DA6EF2A8-EB7D-475E-9AF5-D215732920C7} = {1AAB0A16-1431-48E2-9AD7-5E915E9BA57F}
 	EndGlobalSection
 EndGlobal

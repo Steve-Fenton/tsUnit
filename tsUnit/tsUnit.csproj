@@ -22,8 +22,8 @@
     <SccProvider>{4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}</SccProvider>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="app.css" />
-    <Content Include="default.htm" />
+    <Content Include="tsUnit.css" />
+    <Content Include="tsUnit.htm" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />

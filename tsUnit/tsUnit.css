@@ -35,3 +35,10 @@ li {
     font-family: Arial, sans-serif;
     color: #8CBF26;
 }
+
+#result {
+    border: 1px solid silver;
+    padding: 0.5em;
+    width: 90%;
+    margin: 2% auto 0 auto;
+}

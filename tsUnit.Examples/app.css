@@ -1,0 +1,37 @@
+﻿body {
+    font-family: 'Segoe UI', sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+h1, h2 {
+    font-weight: normal;
+}
+
+span {
+    font-style: italic;
+}
+
+.good {
+    color: #8CBF26;
+}
+
+.bad {
+    color: #E51400;
+}
+
+li {
+    font-weight: bold;
+}
+
+    li li {
+        font-weight: normal;
+        color: #666;
+    }
+
+.ascii {
+    font-family: Arial, sans-serif;
+    color: #8CBF26;
+}

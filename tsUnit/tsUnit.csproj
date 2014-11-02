@@ -45,6 +45,7 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
     <TypeScriptSourceMap>False</TypeScriptSourceMap>
+    <TypeScriptModuleKind>amd</TypeScriptModuleKind>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
@@ -68,6 +69,10 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>XCOPY $(ProjectDir)Scripts\tsUnit\tsUnit.ts $(SolutionDir)tsUnit.Packager\content\Scripts\tsUnit /y</PostBuildEvent>
+    <PostBuildEvent>XCOPY $(ProjectDir)Scripts\tsUnit\tsUnit.ts $(SolutionDir)tsUnit.Packager\content\Scripts\tsUnit /y
+
+XCOPY $(ProjectDir)Scripts\tsUnit\tsUnit.ts $(SolutionDir)tsUnit.External.Packager\content\Scripts\tsUnit /y
+
+echo export = tsUnit; &gt;&gt; $(SolutionDir)tsUnit.External.Packager\content\Scripts\tsUnit\tsUnit.ts</PostBuildEvent>
   </PropertyGroup>
 </Project>

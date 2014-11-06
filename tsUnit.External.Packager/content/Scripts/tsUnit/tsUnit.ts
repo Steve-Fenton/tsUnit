@@ -2,7 +2,7 @@ module tsUnit {
     export class Test {
         private tests: TestDefintion[] = [];
         private testClass: TestClass = new TestClass();
-        private testRunLimiter: TestRunLimiter = new TestRunLimiter();
+        private testRunLimiter: TestRunLimiter = (window) ? new TestRunLimiter() : null;
 
         constructor(...testModules: any[]) {
             for (var i = 0; i < testModules.length; i++) {

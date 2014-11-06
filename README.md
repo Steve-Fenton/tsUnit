@@ -51,3 +51,15 @@ Example
     // Use the built in results display
     test.showResults(document.getElementById('results'), test.run());
 ```
+
+To run without a browser, you can call ```test.run()``` and use the raw result data yourself...
+
+```
+    // new instance of tsUnit - pass in modules that contain test classes
+    var test = new tsUnit.Test(CalculationsTests);
+
+    // Handle the results yourself...
+    var result = test.run());
+    
+    var outcome = (result.errors.length === 0) ? 'Test Passed' : 'Test Failed';
+```

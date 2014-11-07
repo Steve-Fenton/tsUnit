@@ -2,9 +2,15 @@ module tsUnit {
     export class Test {
         private tests: TestDefintion[] = [];
         private testClass: TestClass = new TestClass();
-        private testRunLimiter: TestRunLimiter = (window) ? new TestRunLimiter() : null;
+        private testRunLimiter: TestRunLimiter;
 
         constructor(...testModules: any[]) {
+            try {
+                if (typeof window !== 'undefined') {
+                    this.testRunLimiter = new TestRunLimiter();
+                }
+            } catch (ex) { }
+
             for (var i = 0; i < testModules.length; i++) {
                 var testModule = testModules[i];
                 for (var testClass in testModule) {

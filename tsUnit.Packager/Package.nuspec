@@ -2,13 +2,13 @@
 <package >
   <metadata>
     <id>tsUnit</id>
-    <version>1.5.2</version>
+    <version>1.5.4</version>
     <title>tsUnit</title>
     <authors>Steve Fenton</authors>
     <owners>Steve Fenton</owners>
     <description>
       An xUnit style framework for TypeScript with auto-discovery and assertions. Styled to suit use as an internal module.
-      If you are using internal modules, use the tsUnit.External NuGet package instead.
+      If you are using external modules, use the tsUnit.External NuGet package instead.
     </description>
     <releaseNotes>
     </releaseNotes>

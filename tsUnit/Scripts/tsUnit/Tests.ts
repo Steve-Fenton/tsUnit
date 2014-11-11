@@ -1,5 +1,3 @@
-/// <reference path="./tsUnit.ts" />
-
 module Tests {
     export class RealClass {
         public name = 'Real';
@@ -97,7 +95,7 @@ module Tests {
             ]);
         }
 
-        testForTearDown(index) {
+        testForTearDown(index: number) {
             this.areIdentical(index, this.tearDownCounter);
         }
 

@@ -1,3 +1,7 @@
+interface Object {
+    [index: string]: any;
+}
+
 module tsUnit {
     export class Test {
         private tests: TestDefintion[] = [];
@@ -41,7 +45,7 @@ module tsUnit {
                 testRunLimiter = this.testRunLimiter;
             }
 
-            var runSingleUnitTest = (testsClass, unitTestName, testsGroupName, parameterSetIndex: number = null) => {
+            var runSingleUnitTest = (testsClass: TestClass, unitTestName: string, testsGroupName: string, parameterSetIndex: number = null) => {
                 if (typeof testsClass['setUp'] === 'function') {
                     testsClass['setUp']();
                 }
@@ -179,8 +183,8 @@ module tsUnit {
     }
 
     class TestRunLimiter implements ITestRunLimiter {
-        private groupName = null;
-        private testName = null;
+        private groupName: string = null;
+        private testName: string = null;
         private parameterSet: number = null;
 
         constructor() {
@@ -297,7 +301,7 @@ module tsUnit {
             }
 
             var compareArray = (expected: any[], actual: any[], result: number[]): void => {
-                var indexString = '', i;
+                var indexString = '';
 
                 if (expected === null) {
                     if (actual !== null) {
@@ -325,7 +329,7 @@ module tsUnit {
                         message);
                 }
 
-                for (i = 0; i < expected.length; i++) {
+                for (var i = 0; i < expected.length; i++) {
                     if ((expected[i] instanceof Array) && (actual[i] instanceof Array)) {
                         result.push(i);
                         compareArray(expected[i], actual[i], result);
@@ -380,8 +384,8 @@ module tsUnit {
             }
         }
 
-        throws(params: IThrowsParameters);
-        throws(actual: () => void, message?: string);
+        throws(params: IThrowsParameters) : void;
+        throws(actual: () => void, message?: string) : void;
         throws(a: any, message = '', errorString = '') {
             var actual: () => void;
 
@@ -446,7 +450,7 @@ module tsUnit {
             return new Error(resultMessage);
         }
 
-        private static getNameOfClass(inputClass) {
+        private static getNameOfClass(inputClass: {}) {
             // see: http://www.stevefenton.co.uk/Content/Blog/Date/201304/Blog/Obtaining-A-Class-Name-At-Runtime-In-TypeScript/
             var funcNameRegex = /function (.{1,})\(/;
             var results = (funcNameRegex).exec((<any> inputClass).constructor.toString());
@@ -467,12 +471,8 @@ module tsUnit {
     }
 
     export class TestClass extends TestContext {
-        parameterizeUnitTest(method, parametersArray: any[][]) {
-            if (typeof method !== 'function') {
-                throw new Error('Invalid paramater "method" for "parameterizeTest": it\'s not a function');
-            }
-
-            method.parameters = parametersArray;
+        parameterizeUnitTest(method: Function, parametersArray: any[][]) {
+            (<any>method).parameters = parametersArray;
         }
     }
 

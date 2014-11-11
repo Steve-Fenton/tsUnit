@@ -54,6 +54,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
     <TypeScriptCompile Include="Scripts\FizzBuzz.ts" />
+    <TypeScriptCompile Include="Scripts\FizzBuzzParameterisedTests.ts" />
     <TypeScriptCompile Include="Scripts\FizzBuzzTests.ts" />
     <TypeScriptCompile Include="Scripts\tsUnit\tsUnit.ts" />
   </ItemGroup>

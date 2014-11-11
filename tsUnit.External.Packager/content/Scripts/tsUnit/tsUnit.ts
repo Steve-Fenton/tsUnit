@@ -5,15 +5,11 @@ interface Object {
 module tsUnit {
     export class Test {
         private tests: TestDefintion[] = [];
-        private testClass: TestClass = new TestClass();
         private testRunLimiter: TestRunLimiter;
+        private reservedMethodNameContainer: TestClass = new TestClass();
 
         constructor(...testModules: any[]) {
-            try {
-                if (typeof window !== 'undefined') {
-                    this.testRunLimiter = new TestRunLimiter();
-                }
-            } catch (ex) { }
+            this.createTestLimiter();
 
             for (var i = 0; i < testModules.length; i++) {
                 var testModule = testModules[i];
@@ -27,15 +23,6 @@ module tsUnit {
             this.tests.push(new TestDefintion(testClass, name));
         }
 
-        isReservedFunctionName(functionName: string): boolean {
-            for (var prop in this.testClass) {
-                if (prop === functionName) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
         run(testRunLimiter: ITestRunLimiter = null) {
             var parameters: any[][] = null;
             var testContext = new TestContext();
@@ -44,24 +31,6 @@ module tsUnit {
             if (testRunLimiter == null) {
                 testRunLimiter = this.testRunLimiter;
             }
-
-            var runSingleUnitTest = (testsClass: TestClass, unitTestName: string, testsGroupName: string, parameterSetIndex: number = null) => {
-                if (typeof testsClass['setUp'] === 'function') {
-                    testsClass['setUp']();
-                }
-
-                try {
-                    testsClass[unitTestName].apply(testsClass, (parameterSetIndex !== null) ? parameters[parameterSetIndex] : null);
-
-                    testResult.passes.push(new TestDescription(testsGroupName, unitTestName, parameterSetIndex, 'OK'));
-                } catch (err) {
-                    testResult.errors.push(new TestDescription(testsGroupName, unitTestName, parameterSetIndex, err.toString()));
-                }
-
-                if (typeof testsClass['tearDown'] === 'function') {
-                    testsClass['tearDown']();
-                }
-            };
 
             for (var i = 0; i < this.tests.length; ++i) {
                 var testClass = this.tests[i].testClass;
@@ -80,15 +49,15 @@ module tsUnit {
 
                     if (typeof testClass[unitTestName].parameters !== 'undefined') {
                         parameters = testClass[unitTestName].parameters;
-                        for (var x = 0; x < parameters.length; x++) {
-                            if (!testRunLimiter.isParametersSetActive(x)) {
+                        for (var parameterIndex = 0; parameterIndex < parameters.length; parameterIndex++) {
+                            if (!testRunLimiter.isParametersSetActive(parameterIndex)) {
                                 continue;
                             }
 
-                            runSingleUnitTest(testClass, unitTestName, testsGroupName, x);
+                            this.runSingleTest(testResult, testClass, unitTestName, testsGroupName, parameters, parameterIndex);
                         }
                     } else {
-                        runSingleUnitTest(testClass, unitTestName, testsGroupName);
+                        this.runSingleTest(testResult, testClass, unitTestName, testsGroupName);
                     }
                 }
             }
@@ -113,6 +82,57 @@ module tsUnit {
                 this.testRunLimiter.getLimitCleaner();
 
             target.innerHTML = template;
+        }
+
+        getTapResults(result: TestResult) {
+            var newLine = '\r\n';
+            var template = '1..' + (result.passes.length + result.errors.length).toString() + newLine;
+
+            for (var i = 0; i < result.errors.length; i++) {
+                template += 'not ok ' + result.errors[i].message + ' ' + result.errors[i].testName + newLine;
+            }
+
+            for (var i = 0; i < result.passes.length; i++) {
+                template += 'ok ' + result.passes[i].testName + newLine;
+            }
+
+            return template;
+        }
+
+        private createTestLimiter() {
+            try {
+                if (typeof window !== 'undefined') {
+                    this.testRunLimiter = new TestRunLimiter();
+                }
+            } catch (ex) { }
+        }
+
+        private isReservedFunctionName(functionName: string): boolean {
+            for (var prop in this.reservedMethodNameContainer) {
+                if (prop === functionName) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private runSingleTest(testResult: TestResult, testsClass: TestClass, unitTestName: string, testsGroupName: string, parameters: any[][]= null, parameterSetIndex: number = null) {
+            if (typeof testsClass['setUp'] === 'function') {
+                testsClass['setUp']();
+            }
+
+            try {
+                var args = (parameterSetIndex !== null) ? parameters[parameterSetIndex] : null;
+                testsClass[unitTestName].apply(testsClass, args);
+
+                testResult.passes.push(new TestDescription(testsGroupName, unitTestName, parameterSetIndex, 'OK'));
+            } catch (err) {
+                testResult.errors.push(new TestDescription(testsGroupName, unitTestName, parameterSetIndex, err.toString()));
+            }
+
+            if (typeof testsClass['tearDown'] === 'function') {
+                testsClass['tearDown']();
+            }
         }
 
         private getTestResult(result: TestResult) {
@@ -384,8 +404,8 @@ module tsUnit {
             }
         }
 
-        throws(params: IThrowsParameters) : void;
-        throws(actual: () => void, message?: string) : void;
+        throws(params: IThrowsParameters): void;
+        throws(actual: () => void, message?: string): void;
         throws(a: any, message = '', errorString = '') {
             var actual: () => void;
 
@@ -451,7 +471,7 @@ module tsUnit {
         }
 
         private static getNameOfClass(inputClass: {}) {
-            // see: http://www.stevefenton.co.uk/Content/Blog/Date/201304/Blog/Obtaining-A-Class-Name-At-Runtime-In-TypeScript/
+            // see: https://www.stevefenton.co.uk/Content/Blog/Date/201304/Blog/Obtaining-A-Class-Name-At-Runtime-In-TypeScript/
             var funcNameRegex = /function (.{1,})\(/;
             var results = (funcNameRegex).exec((<any> inputClass).constructor.toString());
             return (results && results.length > 1) ? results[1] : '';
@@ -507,11 +527,6 @@ module tsUnit {
 
     class TestDefintion {
         constructor(public testClass: TestClass, public name: string) {
-        }
-    }
-
-    class TestError implements Error {
-        constructor(public name: string, public message: string) {
         }
     }
 

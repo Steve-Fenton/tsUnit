@@ -54,7 +54,7 @@ Example
 
 To run without a browser, you can call ```test.run()``` and use the raw result data yourself...
 
-```
+```TypeScript
     // new instance of tsUnit - pass in modules that contain test classes
     var test = new tsUnit.Test(CalculationsTests);
 
@@ -66,7 +66,7 @@ To run without a browser, you can call ```test.run()``` and use the raw result d
 
 Or you can use the TAP (Test Anything Protocol) output:
 
-```
+```TypeScript
     // new instance of tsUnit - pass in modules that contain test classes
     var test = new tsUnit.Test(CalculationsTests);
 

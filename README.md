@@ -54,14 +54,26 @@ Example
 
 To run without a browser, you can call ```test.run()``` and use the raw result data yourself...
 
-```
+```TypeScript
     // new instance of tsUnit - pass in modules that contain test classes
     var test = new tsUnit.Test(CalculationsTests);
 
     // Handle the results yourself...
-    var result = test.run());
+    var result = test.run();
     
     var outcome = (result.errors.length === 0) ? 'Test Passed' : 'Test Failed';
+```
+
+Or you can use the TAP (Test Anything Protocol) output:
+
+```TypeScript
+    // new instance of tsUnit - pass in modules that contain test classes
+    var test = new tsUnit.Test(CalculationsTests);
+
+    // TAP output...
+    var result = getTapResults(test.run());
+    
+    console.log(result);
 ```
 
 License

@@ -111,7 +111,7 @@ module Tests {
             var test = new tsUnit.Test();
 
             test.addTestClass(stub, 'SetUpTestClassStub');
-            var results = test.run(new tsUnit.TestRunLimiterRunAll());
+            var results = test.run();
 
             this.areIdentical(testPropertyOnBegin, '', "TestProperty should be empty on start");
             this.isTrue((results.passes.length == 2) && (results.errors.length == 1), "All internal tests should passed (appertly setUp didn't work)");
@@ -123,7 +123,7 @@ module Tests {
             var test = new tsUnit.Test();
 
             test.addTestClass(stub, 'SetUpWithParametersTestClassStub');
-            var results = test.run(new tsUnit.TestRunLimiterRunAll());
+            var results = test.run();
 
             this.areIdentical(testPropertyOnBegin, '', "TestProperty should be empty on start");
             this.isTrue((results.passes.length == 3) && (results.errors.length == 0), "All internal tests should passed (appertly setUp didn't work)");
@@ -135,7 +135,7 @@ module Tests {
             var test = new tsUnit.Test();
 
             test.addTestClass(stub, 'TearDownTestClassStub');
-            test.run(new tsUnit.TestRunLimiterRunAll());
+            test.run();
 
             this.areIdentical(testPropertyOnBegin, '', "TestProperty should be empty on start");
             this.areIdentical(stub.TestProperty, 'TEARDOWN', "TestProperty should be overwrite by TearDown method");
@@ -147,7 +147,7 @@ module Tests {
             var test = new tsUnit.Test();
 
             test.addTestClass(stub, 'TearDownWithFailingTestClassStub');
-            test.run(new tsUnit.TestRunLimiterRunAll());
+            test.run();
 
             this.areIdentical(testPropertyOnBegin, '', "TestProperty should be empty on start");
             this.areIdentical(stub.TestProperty, 'TEARDOWN', "TestProperty should be overwrite by TearDown method");
@@ -158,7 +158,7 @@ module Tests {
             var test = new tsUnit.Test();
 
             test.addTestClass(stub, 'TearDownTestWithParametersTestClassStub');
-            var results = test.run(new tsUnit.TestRunLimiterRunAll());
+            var results = test.run();
 
             this.areIdentical(3, stub.tearDownCounter);
             this.isTrue((results.passes.length == 3) && (results.errors.length == 0), "All internal tests should passed (appertly setUp didn't work)");
@@ -176,9 +176,9 @@ module Tests {
         }
 
         callSubstituteFunctionOnFake() {
-            var target = tsUnit.FakeFactory.getFake<RealClass>(RealClass, {
-                run: function () { return true; }
-            });
+            var target = tsUnit.FakeFactory.getFake<RealClass>(RealClass, 
+                ['run', function () { return true; }]
+            );
 
             var result = target.run();
 
@@ -188,11 +188,11 @@ module Tests {
         callSubstituteFunctionToObtainSecondFake() {
             // We can use the FakeFactory to make the outer 'RealClass' return a fake 'RealClass' 
             // when the 'returnValue' method is called.
-            var target = tsUnit.FakeFactory.getFake<RealClass>(RealClass, {
-                returnValue: function () {
-                    return tsUnit.FakeFactory.getFake<RealClass>(RealClass, { run: function () { return true; } });
-                }
-            });
+            var target = tsUnit.FakeFactory.getFake<RealClass>(RealClass, 
+                ['returnValue', function () {
+                    return tsUnit.FakeFactory.getFake<RealClass>(RealClass, [ 'run', function () { return true; } ]);
+                }]
+            );
 
             var interimResult = target.returnValue();
             var result = interimResult.run();
@@ -209,9 +209,9 @@ module Tests {
         }
 
         callSubstitutePropertyOnFake() {
-            var target = tsUnit.FakeFactory.getFake<RealClass>(RealClass, {
-                name: 'Test'
-            });
+            var target = tsUnit.FakeFactory.getFake<RealClass>(RealClass,
+                ['name', 'Test']
+            );
 
             var result = target.name;
 

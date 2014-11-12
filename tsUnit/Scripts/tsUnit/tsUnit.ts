@@ -499,7 +499,7 @@ module tsUnit {
     }
 
     export class FakeFactory {
-        static getFake<T>(obj: any, implementations?: FakeImplementation): T {
+        static getFake<T>(obj: any, ...implementations: [string, any][]): T {
             var fakeType: any = function () { };
             this.populateFakeType(fakeType, obj);
             var fake: any = new fakeType();
@@ -532,10 +532,6 @@ module tsUnit {
 
             fake.prototype = new __();
         }
-    }
-
-    export interface FakeImplementation {
-        [member: string]: any;
     }
 
     class TestDefintion {

@@ -1,10 +1,16 @@
+interface Object {
+    [index: string]: any;
+}
+
 module tsUnit {
     export class Test {
         private tests: TestDefintion[] = [];
-        private testClass: TestClass = new TestClass();
-        private testRunLimiter: TestRunLimiter = new TestRunLimiter();
+        private testRunLimiter: TestRunLimiter;
+        private reservedMethodNameContainer: TestClass = new TestClass();
 
         constructor(...testModules: any[]) {
+            this.createTestLimiter();
+
             for (var i = 0; i < testModules.length; i++) {
                 var testModule = testModules[i];
                 for (var testClass in testModule) {
@@ -17,15 +23,6 @@ module tsUnit {
             this.tests.push(new TestDefintion(testClass, name));
         }
 
-        isReservedFunctionName(functionName: string): boolean {
-            for (var prop in this.testClass) {
-                if (prop === functionName) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
         run(testRunLimiter: ITestRunLimiter = null) {
             var parameters: any[][] = null;
             var testContext = new TestContext();
@@ -35,26 +32,9 @@ module tsUnit {
                 testRunLimiter = this.testRunLimiter;
             }
 
-            var runSingleUnitTest = (testsClass, unitTestName, testsGroupName, parameterSetIndex: number = null) => {
-                if (typeof testsClass['setUp'] === 'function') {
-                    testsClass['setUp']();
-                }
-
-                try {
-                    testsClass[unitTestName].apply(testsClass, (parameterSetIndex !== null) ? parameters[parameterSetIndex] : null);
-
-                    testResult.passes.push(new TestDescription(testsGroupName, unitTestName, parameterSetIndex, 'OK'));
-                } catch (err) {
-                    testResult.errors.push(new TestDescription(testsGroupName, unitTestName, parameterSetIndex, err.toString()));
-                }
-
-                if (typeof testsClass['tearDown'] === 'function') {
-                    testsClass['tearDown']();
-                }
-            };
-
             for (var i = 0; i < this.tests.length; ++i) {
                 var testClass = this.tests[i].testClass;
+                var dynamicTestClass = <any>testClass;
                 var testsGroupName = this.tests[i].name;
 
                 if (!testRunLimiter.isTestsGroupActive(testsGroupName)) {
@@ -63,22 +43,22 @@ module tsUnit {
 
                 for (var unitTestName in testClass) {
                     if (this.isReservedFunctionName(unitTestName)
-                        || (typeof testClass[unitTestName] !== 'function')
+                        || (typeof dynamicTestClass[unitTestName] !== 'function')
                         || !testRunLimiter.isTestActive(unitTestName)) {
                         continue;
                     }
 
-                    if (typeof testClass[unitTestName].parameters !== 'undefined') {
-                        parameters = testClass[unitTestName].parameters;
-                        for (var x = 0; x < parameters.length; x++) {
-                            if (!testRunLimiter.isParametersSetActive(x)) {
+                    if (typeof dynamicTestClass[unitTestName].parameters !== 'undefined') {
+                        parameters = dynamicTestClass[unitTestName].parameters;
+                        for (var parameterIndex = 0; parameterIndex < parameters.length; parameterIndex++) {
+                            if (!testRunLimiter.isParametersSetActive(parameterIndex)) {
                                 continue;
                             }
 
-                            runSingleUnitTest(testClass, unitTestName, testsGroupName, x);
+                            this.runSingleTest(testResult, testClass, unitTestName, testsGroupName, parameters, parameterIndex);
                         }
                     } else {
-                        runSingleUnitTest(testClass, unitTestName, testsGroupName);
+                        this.runSingleTest(testResult, testClass, unitTestName, testsGroupName);
                     }
                 }
             }
@@ -103,6 +83,58 @@ module tsUnit {
                 this.testRunLimiter.getLimitCleaner();
 
             target.innerHTML = template;
+        }
+
+        getTapResults(result: TestResult) {
+            var newLine = '\r\n';
+            var template = '1..' + (result.passes.length + result.errors.length).toString() + newLine;
+
+            for (var i = 0; i < result.errors.length; i++) {
+                template += 'not ok ' + result.errors[i].message + ' ' + result.errors[i].testName + newLine;
+            }
+
+            for (var i = 0; i < result.passes.length; i++) {
+                template += 'ok ' + result.passes[i].testName + newLine;
+            }
+
+            return template;
+        }
+
+        private createTestLimiter() {
+            try {
+                if (typeof window !== 'undefined') {
+                    this.testRunLimiter = new TestRunLimiter();
+                }
+            } catch (ex) { }
+        }
+
+        private isReservedFunctionName(functionName: string): boolean {
+            for (var prop in this.reservedMethodNameContainer) {
+                if (prop === functionName) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private runSingleTest(testResult: TestResult, testClass: TestClass, unitTestName: string, testsGroupName: string, parameters: any[][]= null, parameterSetIndex: number = null) {
+            if (typeof testClass['setUp'] === 'function') {
+                testClass['setUp']();
+            }
+
+            try {
+                var dynamicTestClass: any = testClass;
+                var args = (parameterSetIndex !== null) ? parameters[parameterSetIndex] : null;
+                dynamicTestClass[unitTestName].apply(testClass, args);
+
+                testResult.passes.push(new TestDescription(testsGroupName, unitTestName, parameterSetIndex, 'OK'));
+            } catch (err) {
+                testResult.errors.push(new TestDescription(testsGroupName, unitTestName, parameterSetIndex, err.toString()));
+            }
+
+            if (typeof testClass['tearDown'] === 'function') {
+                testClass['tearDown']();
+            }
         }
 
         private getTestResult(result: TestResult) {
@@ -158,7 +190,7 @@ module tsUnit {
         errorString?: string;
     }
 
-    export class RunAllTests implements ITestRunLimiter {
+    class TestRunLimiterRunAll implements ITestRunLimiter {
         isTestsGroupActive(groupName: string): boolean {
             return true;
         }
@@ -173,8 +205,8 @@ module tsUnit {
     }
 
     class TestRunLimiter implements ITestRunLimiter {
-        private groupName = null;
-        private testName = null;
+        private groupName: string = null;
+        private testName: string = null;
         private parameterSet: number = null;
 
         constructor() {
@@ -263,7 +295,7 @@ module tsUnit {
         tearDown() {
         }
 
-        areIdentical(expected: any, actual: any, message = ''): void {
+        protected areIdentical(expected: any, actual: any, message = ''): void {
             if (expected !== actual) {
                 throw this.getError('areIdentical failed when given ' +
                     this.printVariable(expected) + ' and ' + this.printVariable(actual),
@@ -271,7 +303,7 @@ module tsUnit {
             }
         }
 
-        areNotIdentical(expected: any, actual: any, message = ''): void {
+        protected areNotIdentical(expected: any, actual: any, message = ''): void {
             if (expected === actual) {
                 throw this.getError('areNotIdentical failed when given ' +
                     this.printVariable(expected) + ' and ' + this.printVariable(actual),
@@ -279,7 +311,7 @@ module tsUnit {
             }
         }
 
-        areCollectionsIdentical(expected: any[], actual: any[], message = ''): void {
+        protected areCollectionsIdentical(expected: any[], actual: any[], message = ''): void {
             function resultToString(result: number[]): string {
                 var msg = '';
 
@@ -291,7 +323,7 @@ module tsUnit {
             }
 
             var compareArray = (expected: any[], actual: any[], result: number[]): void => {
-                var indexString = '', i;
+                var indexString = '';
 
                 if (expected === null) {
                     if (actual !== null) {
@@ -319,7 +351,7 @@ module tsUnit {
                         message);
                 }
 
-                for (i = 0; i < expected.length; i++) {
+                for (var i = 0; i < expected.length; i++) {
                     if ((expected[i] instanceof Array) && (actual[i] instanceof Array)) {
                         result.push(i);
                         compareArray(expected[i], actual[i], result);
@@ -340,7 +372,7 @@ module tsUnit {
             compareArray(expected, actual, []);
         }
 
-        areCollectionsNotIdentical(expected: any[], actual: any[], message = ''): void {
+        protected areCollectionsNotIdentical(expected: any[], actual: any[], message = ''): void {
             try {
                 this.areCollectionsIdentical(expected, actual);
             } catch (ex) {
@@ -350,33 +382,33 @@ module tsUnit {
             throw this.getError('areCollectionsNotIdentical failed when both collections are identical', message);
         }
 
-        isTrue(actual: boolean, message = '') {
+        protected isTrue(actual: boolean, message = '') {
             if (!actual) {
                 throw this.getError('isTrue failed when given ' + this.printVariable(actual), message);
             }
         }
 
-        isFalse(actual: boolean, message = '') {
+        protected isFalse(actual: boolean, message = '') {
             if (actual) {
                 throw this.getError('isFalse failed when given ' + this.printVariable(actual), message);
             }
         }
 
-        isTruthy(actual: any, message = '') {
+        protected isTruthy(actual: any, message = '') {
             if (!actual) {
                 throw this.getError('isTrue failed when given ' + this.printVariable(actual), message);
             }
         }
 
-        isFalsey(actual: any, message = '') {
+        protected isFalsey(actual: any, message = '') {
             if (actual) {
                 throw this.getError('isFalse failed when given ' + this.printVariable(actual), message);
             }
         }
 
-        throws(params: IThrowsParameters);
-        throws(actual: () => void, message?: string);
-        throws(a: any, message = '', errorString = '') {
+        protected throws(params: IThrowsParameters): void;
+        protected throws(actual: () => void, message?: string): void;
+        protected throws(a: any, message = '', errorString = '') {
             var actual: () => void;
 
             if (a.fn) {
@@ -403,7 +435,7 @@ module tsUnit {
             }
         }
 
-        executesWithin(actual: () => void, timeLimit: number, message: string = null): void {
+        protected executesWithin(actual: () => void, timeLimit: number, message: string = null): void {
             function getTime() {
                 return window.performance.now();
             }
@@ -428,7 +460,7 @@ module tsUnit {
             }
         }
 
-        fail(message = '') {
+        protected fail(message = '') {
             throw this.getError('fail', message);
         }
 
@@ -440,8 +472,8 @@ module tsUnit {
             return new Error(resultMessage);
         }
 
-        private static getNameOfClass(inputClass) {
-            // see: http://www.stevefenton.co.uk/Content/Blog/Date/201304/Blog/Obtaining-A-Class-Name-At-Runtime-In-TypeScript/
+        private static getNameOfClass(inputClass: {}) {
+            // see: https://www.stevefenton.co.uk/Content/Blog/Date/201304/Blog/Obtaining-A-Class-Name-At-Runtime-In-TypeScript/
             var funcNameRegex = /function (.{1,})\(/;
             var results = (funcNameRegex).exec((<any> inputClass).constructor.toString());
             return (results && results.length > 1) ? results[1] : '';
@@ -461,51 +493,53 @@ module tsUnit {
     }
 
     export class TestClass extends TestContext {
-        parameterizeUnitTest(method, parametersArray: any[][]) {
-            if (typeof method !== 'function') {
-                throw new Error('Invalid paramater "method" for "parameterizeTest": it\'s not a function');
-            }
-
-            method.parameters = parametersArray;
+        protected parameterizeUnitTest(method: Function, parametersArray: any[][]) {
+            (<any>method).parameters = parametersArray;
         }
     }
 
-    export class FakeFunction {
-        constructor(public name: string, public delgate: { (...args: any[]): any; }) {
-        }
-    }
+    export class FakeFactory {
+        static getFake<T>(obj: any, ...implementations: [string, any][]): T {
+            var fakeType: any = function () { };
+            this.populateFakeType(fakeType, obj);
+            var fake: any = new fakeType();
 
-    export class Fake<T> {
-        constructor(obj: T) {
-            for (var prop in obj) {
-                if (typeof obj[prop] === 'function') {
-                    this[prop] = function () { };
-                } else {
-                    this[prop] = null;
+            for (var member in fake) {
+                if (typeof fake[member] === 'function') {
+                    fake[member] = function () { console.log('Default fake called.'); };
                 }
             }
+
+            var memberNameIndex = 0;
+            var memberValueIndex = 1;
+
+            for (var i = 0; i < implementations.length; i++) {
+                var impl = implementations[i];
+                fake[impl[memberNameIndex]] = impl[memberValueIndex];
+            }
+
+            return <T>fake;
         }
 
-        create(): T {
-            return <T> <any> this;
-        }
+        private static populateFakeType(fake: any, toCopy: any) {
+            for (var property in toCopy) {
+                if (toCopy.hasOwnProperty(property)) {
+                    fake[property] = toCopy[property];
+                }
+            }
 
-        addFunction(name: string, delegate: { (...args: any[]): any; }) {
-            this[name] = delegate;
-        }
+            var __: any = function () {
+                this.constructor = fake;
+            }
 
-        addProperty(name: string, value: any) {
-            this[name] = value;
+            __.prototype = toCopy.prototype;
+
+            fake.prototype = new __();
         }
     }
 
     class TestDefintion {
         constructor(public testClass: TestClass, public name: string) {
-        }
-    }
-
-    class TestError implements Error {
-        constructor(public name: string, public message: string) {
         }
     }
 

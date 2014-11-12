@@ -190,7 +190,7 @@ module tsUnit {
         errorString?: string;
     }
 
-    export class RunAllTests implements ITestRunLimiter {
+    class TestRunLimiterRunAll implements ITestRunLimiter {
         isTestsGroupActive(groupName: string): boolean {
             return true;
         }
@@ -499,7 +499,7 @@ module tsUnit {
     }
 
     export class FakeFactory {
-        static getFake<T>(obj: any, implementations?: FakeImplementation): T {
+        static getFake<T>(obj: any, ...implementations: [string, any][]): T {
             var fakeType: any = function () { };
             this.populateFakeType(fakeType, obj);
             var fake: any = new fakeType();
@@ -510,8 +510,12 @@ module tsUnit {
                 }
             }
 
-            for (var member in implementations) {
-                fake[member] = implementations[member];
+            var memberNameIndex = 0;
+            var memberValueIndex = 1;
+
+            for (var i = 0; i < implementations.length; i++) {
+                var impl = implementations[i];
+                fake[impl[memberNameIndex]] = impl[memberValueIndex];
             }
 
             return <T>fake;
@@ -532,10 +536,6 @@ module tsUnit {
 
             fake.prototype = new __();
         }
-    }
-
-    export interface FakeImplementation {
-        [member: string]: any;
     }
 
     class TestDefintion {

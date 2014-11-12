@@ -61,6 +61,8 @@
   <ItemGroup>
     <Content Include="app.css" />
     <Content Include="default.htm" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">

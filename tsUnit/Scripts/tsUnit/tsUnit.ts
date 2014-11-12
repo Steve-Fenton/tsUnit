@@ -510,8 +510,12 @@ module tsUnit {
                 }
             }
 
-            for (var member in implementations) {
-                fake[member] = implementations[member];
+            var memberNameIndex = 0;
+            var memberValueIndex = 1;
+
+            for (var i = 0; i < implementations.length; i++) {
+                var impl = implementations[i];
+                fake[impl[memberNameIndex]] = impl[memberValueIndex];
             }
 
             return <T>fake;

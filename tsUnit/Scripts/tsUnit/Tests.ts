@@ -219,63 +219,6 @@ module Tests {
         }
     }
 
-    /**
-     * Obsolete
-     */
-    export class FakesTests extends tsUnit.TestClass {
-
-        callDefaultFunctionOnFake() {
-            var fakeObject = new tsUnit.Fake<RealClass>(new RealClass());
-            var target = fakeObject.create();
-
-            var result = target.run();
-
-            this.areIdentical(undefined, result);
-        }
-
-        callSubstituteFunctionOnFake() {
-            var fakeObject = new tsUnit.Fake<RealClass>(new RealClass());
-            fakeObject.addFunction('run', function () { return true; });
-            var target = fakeObject.create();
-
-            var result = target.run();
-
-            this.isTrue(result);
-        }
-
-        callSubstituteFunctionToObtainSecondFake() {
-            var innerFake = new tsUnit.Fake<RealClass>(new RealClass());
-            innerFake.addFunction('run', function () { return true; });
-            var outerFake = new tsUnit.Fake<RealClass>(new RealClass());
-            outerFake.addFunction('returnValue', function () { return <RealClass> innerFake.create(); });
-            var target = <any> outerFake.create();
-
-            var interimResult = target.returnValue();
-            var result = interimResult.run();
-
-            this.isTrue(result);
-        }
-
-        callDefaultPropertyOnFake() {
-            var fakeObject = new tsUnit.Fake<RealClass>(new RealClass());
-            var target = fakeObject.create();
-
-            var result = target.name;
-
-            this.areIdentical(null, result);
-        }
-
-        callSubstitutePropertyOnFake() {
-            var fakeObject = new tsUnit.Fake<RealClass>(new RealClass());
-            fakeObject.addProperty('name', 'Test');
-            var target = fakeObject.create();
-
-            var result = target.name;
-
-            this.areIdentical('Test', result);
-        }
-    }
-
     export class AssertAreIdenticalTests extends tsUnit.TestClass {
         withIdenticalNumbers() {
             this.areIdentical(5, 5);

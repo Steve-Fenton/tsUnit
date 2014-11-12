@@ -111,7 +111,7 @@ module Tests {
             var test = new tsUnit.Test();
 
             test.addTestClass(stub, 'SetUpTestClassStub');
-            var results = test.run(new tsUnit.RunAllTests());
+            var results = test.run(new tsUnit.TestRunLimiterRunAll());
 
             this.areIdentical(testPropertyOnBegin, '', "TestProperty should be empty on start");
             this.isTrue((results.passes.length == 2) && (results.errors.length == 1), "All internal tests should passed (appertly setUp didn't work)");
@@ -123,7 +123,7 @@ module Tests {
             var test = new tsUnit.Test();
 
             test.addTestClass(stub, 'SetUpWithParametersTestClassStub');
-            var results = test.run(new tsUnit.RunAllTests());
+            var results = test.run(new tsUnit.TestRunLimiterRunAll());
 
             this.areIdentical(testPropertyOnBegin, '', "TestProperty should be empty on start");
             this.isTrue((results.passes.length == 3) && (results.errors.length == 0), "All internal tests should passed (appertly setUp didn't work)");
@@ -135,7 +135,7 @@ module Tests {
             var test = new tsUnit.Test();
 
             test.addTestClass(stub, 'TearDownTestClassStub');
-            test.run(new tsUnit.RunAllTests());
+            test.run(new tsUnit.TestRunLimiterRunAll());
 
             this.areIdentical(testPropertyOnBegin, '', "TestProperty should be empty on start");
             this.areIdentical(stub.TestProperty, 'TEARDOWN', "TestProperty should be overwrite by TearDown method");
@@ -147,7 +147,7 @@ module Tests {
             var test = new tsUnit.Test();
 
             test.addTestClass(stub, 'TearDownWithFailingTestClassStub');
-            test.run(new tsUnit.RunAllTests());
+            test.run(new tsUnit.TestRunLimiterRunAll());
 
             this.areIdentical(testPropertyOnBegin, '', "TestProperty should be empty on start");
             this.areIdentical(stub.TestProperty, 'TEARDOWN', "TestProperty should be overwrite by TearDown method");
@@ -158,7 +158,7 @@ module Tests {
             var test = new tsUnit.Test();
 
             test.addTestClass(stub, 'TearDownTestWithParametersTestClassStub');
-            var results = test.run(new tsUnit.RunAllTests());
+            var results = test.run(new tsUnit.TestRunLimiterRunAll());
 
             this.areIdentical(3, stub.tearDownCounter);
             this.isTrue((results.passes.length == 3) && (results.errors.length == 0), "All internal tests should passed (appertly setUp didn't work)");

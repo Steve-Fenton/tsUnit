@@ -190,7 +190,7 @@ module tsUnit {
         errorString?: string;
     }
 
-    export class RunAllTests implements ITestRunLimiter {
+    class TestRunLimiterRunAll implements ITestRunLimiter {
         isTestsGroupActive(groupName: string): boolean {
             return true;
         }

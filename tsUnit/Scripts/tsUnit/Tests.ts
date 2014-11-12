@@ -165,6 +165,63 @@ module Tests {
         }
     }
 
+    export class FakeFactoryTests extends tsUnit.TestClass {
+
+        callDefaultFunctionOnFake() {
+            var target = tsUnit.FakeFactory.getFake<RealClass>(RealClass);
+
+            var result = target.run();
+
+            this.areIdentical(undefined, result);
+        }
+
+        callSubstituteFunctionOnFake() {
+            var target = tsUnit.FakeFactory.getFake<RealClass>(RealClass, {
+                run: function () { return true; }
+            });
+
+            var result = target.run();
+
+            this.isTrue(result);
+        }
+
+        callSubstituteFunctionToObtainSecondFake() {
+            // We can use the FakeFactory to make the outer 'RealClass' return a fake 'RealClass' 
+            // when the 'returnValue' method is called.
+            var target = tsUnit.FakeFactory.getFake<RealClass>(RealClass, {
+                returnValue: function () {
+                    return tsUnit.FakeFactory.getFake<RealClass>(RealClass, { run: function () { return true; } });
+                }
+            });
+
+            var interimResult = target.returnValue();
+            var result = interimResult.run();
+
+            this.isTrue(result);
+        }
+
+        callDefaultPropertyOnFake() {
+            var target = tsUnit.FakeFactory.getFake<RealClass>(RealClass);
+
+            var result = target.name;
+
+            this.areIdentical(undefined, result);
+        }
+
+        callSubstitutePropertyOnFake() {
+            var target = tsUnit.FakeFactory.getFake<RealClass>(RealClass, {
+                name: 'Test'
+            });
+
+            var result = target.name;
+
+            this.areIdentical('Test', result);
+        }
+    }
+
+    /**
+     * Obsolete
+     */
     export class FakesTests extends tsUnit.TestClass {
 
         callDefaultFunctionOnFake() {

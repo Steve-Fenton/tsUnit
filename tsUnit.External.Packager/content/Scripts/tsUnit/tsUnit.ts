@@ -496,11 +496,57 @@ module tsUnit {
         }
     }
 
+    export class FakeFactory {
+        static getFake<T>(obj: any, implementations?: FakeImplementation): T {
+            var fakeType: any = function () { };
+            this.populateFakeType(fakeType, obj);
+            var fake = <T>(new fakeType());
+
+            for (var member in fake) {
+                if (typeof fake[member] === 'function') {
+                    fake[member] = function () { console.log('Default fake called.'); };
+                }
+            }
+
+            for (var member in implementations) {
+                fake[member] = implementations[member];
+            }
+
+            return fake;
+        }
+
+        private static populateFakeType(fake: any, toCopy: any) {
+            for (var property in toCopy) {
+                if (toCopy.hasOwnProperty(property)) {
+                    fake[property] = toCopy[property];
+                }
+            }
+
+            var __: any = function () {
+                this.constructor = fake;
+            }
+
+            __.prototype = toCopy.prototype;
+
+            fake.prototype = new __();
+        }
+    }
+
+    export interface FakeImplementation {
+        [member: string]: any;
+    }
+
+    /**
+     * Obsolete
+     */
     export class FakeFunction {
         constructor(public name: string, public delgate: { (...args: any[]): any; }) {
         }
     }
 
+    /**
+     * Obsolete
+     */
     export class Fake<T> {
         constructor(obj: T) {
             for (var prop in obj) {

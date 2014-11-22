@@ -1,0 +1,7 @@
+C:\Users\HP\Source\Repos\tsUnit\tsUnit.Node.Examples\obj\Release\tsUnit.Node.Examples.njsprojResolveAssemblyReference.cache
+C:\Users\HP\Source\Repos\tsUnit\tsUnit.Node.Examples\obj\Release\Scripts\FizzBuzz.ts
+C:\Users\HP\Source\Repos\tsUnit\tsUnit.Node.Examples\obj\Release\Scripts\FizzBuzzTests.ts
+C:\Users\HP\Source\Repos\tsUnit\tsUnit.Node.Examples\obj\Release\Scripts\tsUnit\tsUnit.ts
+C:\Users\HP\Source\Repos\tsUnit\tsUnit.Node.Examples\obj\Release\package.json
+C:\Users\HP\Source\Repos\tsUnit\tsUnit.Node.Examples\obj\Release\app.js
+C:\Users\HP\Source\Repos\tsUnit\tsUnit.Node.Examples\obj\Release\bin\Microsoft.NodejsTools.WebRole.dll

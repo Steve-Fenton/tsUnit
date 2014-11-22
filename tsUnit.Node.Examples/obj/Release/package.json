@@ -1,0 +1,10 @@
+{
+  "name": "tsUnit.Node.Examples",
+  "version": "0.0.0",
+  "description": "tsUnit.Node.Examples",
+  "main": "app.js",
+  "author": {
+    "name": "HP",
+    "email": ""
+  }
+}

@@ -1,7 +1,3 @@
-interface Object {
-    [index: string]: any;
-}
-
 module tsUnit {
     export class Test {
         private tests: TestDefintion[] = [];
@@ -37,21 +33,21 @@ module tsUnit {
                 var dynamicTestClass = <any>testClass;
                 var testsGroupName = this.tests[i].name;
 
-                if (!testRunLimiter.isTestsGroupActive(testsGroupName)) {
+                if (testRunLimiter && !testRunLimiter.isTestsGroupActive(testsGroupName)) {
                     continue;
                 }
 
                 for (var unitTestName in testClass) {
                     if (this.isReservedFunctionName(unitTestName)
                         || (typeof dynamicTestClass[unitTestName] !== 'function')
-                        || !testRunLimiter.isTestActive(unitTestName)) {
+                        || (testRunLimiter && !testRunLimiter.isTestActive(unitTestName))) {
                         continue;
                     }
 
                     if (typeof dynamicTestClass[unitTestName].parameters !== 'undefined') {
                         parameters = dynamicTestClass[unitTestName].parameters;
                         for (var parameterIndex = 0; parameterIndex < parameters.length; parameterIndex++) {
-                            if (!testRunLimiter.isParametersSetActive(parameterIndex)) {
+                            if (testRunLimiter && !testRunLimiter.isParametersSetActive(parameterIndex)) {
                                 continue;
                             }
 

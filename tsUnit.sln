@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30626.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tsUnit", "tsUnit\tsUnit.csproj", "{ECF9ECAE-AD1C-42AB-A821-600A3882E46A}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{1AAB0A16-1431-48E2-9AD7-5E915E9BA57F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet Packages", "NuGet Packages", "{264E5159-8DD7-49F0-B2F7-9222D3365FCF}"
+EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "tsUnit.Node.Examples", "tsUnit.Node.Examples\tsUnit.Node.Examples.njsproj", "{20C55C8A-BDD2-43D8-8B18-4D17F468706F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +45,10 @@ Global
 		{DA6EF2A8-EB7D-475E-9AF5-D215732920C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA6EF2A8-EB7D-475E-9AF5-D215732920C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA6EF2A8-EB7D-475E-9AF5-D215732920C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20C55C8A-BDD2-43D8-8B18-4D17F468706F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20C55C8A-BDD2-43D8-8B18-4D17F468706F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20C55C8A-BDD2-43D8-8B18-4D17F468706F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20C55C8A-BDD2-43D8-8B18-4D17F468706F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,5 +58,6 @@ Global
 		{E31C1A48-7177-49CB-9690-85C6D4EA05A7} = {264E5159-8DD7-49F0-B2F7-9222D3365FCF}
 		{41008459-C342-4DE4-ABD3-1076CF50D3CF} = {1AAB0A16-1431-48E2-9AD7-5E915E9BA57F}
 		{DA6EF2A8-EB7D-475E-9AF5-D215732920C7} = {1AAB0A16-1431-48E2-9AD7-5E915E9BA57F}
+		{20C55C8A-BDD2-43D8-8B18-4D17F468706F} = {1AAB0A16-1431-48E2-9AD7-5E915E9BA57F}
 	EndGlobalSection
 EndGlobal

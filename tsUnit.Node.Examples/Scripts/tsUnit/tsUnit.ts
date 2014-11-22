@@ -1,3 +1,7 @@
+interface Object {
+    [index: string]: any;
+}
+
 module tsUnit {
     export class Test {
         private tests: TestDefintion[] = [];

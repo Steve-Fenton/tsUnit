@@ -20,6 +20,6 @@ var rl = readline.createInterface({
     output: process.stdout
 });
 
-rl.question("Press any key to continue...", function (answer) {
+rl.question("Press any key to continue...", () => {
     rl.close();
 });

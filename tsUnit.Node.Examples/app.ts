@@ -1,4 +1,4 @@
-﻿import tsUnit = require('./Scripts/tsUnit/tsUnit');
+﻿import tsUnit = require('./node_modules/tsunit.external/tsUnit');
 import FizzBuzzTests = require('./Scripts/FizzBuzzTests');
 import readline = require('readline');
 

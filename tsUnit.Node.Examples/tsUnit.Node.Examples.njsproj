@@ -37,14 +37,12 @@
   <ItemGroup>
     <Content Include="Scripts\FizzBuzz.ts" />
     <Content Include="Scripts\FizzBuzzTests.ts" />
-    <Content Include="Scripts\tsUnit\tsUnit.ts" />
     <TypeScriptCompile Include="app.ts" />
     <Content Include="package.json" />
     <TypeScriptCompile Include="Scripts\typings\node\node.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\" />
-    <Folder Include="Scripts\tsUnit\" />
     <Folder Include="Scripts\typings\" />
     <Folder Include="Scripts\typings\node\" />
   </ItemGroup>

@@ -475,5 +475,3 @@ var tsUnit;
     })();
     tsUnit.TestResult = TestResult;
 })(tsUnit || (tsUnit = {}));
-module.exports = tsUnit;
-//# sourceMappingURL=tsUnit.js.map

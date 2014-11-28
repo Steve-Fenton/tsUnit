@@ -4,7 +4,10 @@
   "description": "tsUnit.Node.Examples",
   "main": "app.js",
   "author": {
-    "name": "HP",
-    "email": ""
+    "name": "Steve Fenton",
+    "email": "npm@stevefenton.co.uk"
+  },
+  "dependencies": {
+    "tsunit.external": "^1.7.3"
   }
 }

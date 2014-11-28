@@ -1,4 +1,4 @@
-var tsUnit = require('./Scripts/tsUnit/tsUnit');
+var tsUnit = require('./node_modules/tsunit.external/tsUnit');
 var FizzBuzzTests = require('./Scripts/FizzBuzzTests');
 var readline = require('readline');
 // Instantiate tsUnit and pass in modules that contain tests

@@ -2,12 +2,12 @@
 <package >
   <metadata>
     <id>tsUnit.external</id>
-    <version>1.7.3</version>
+    <version>1.8.0</version>
     <title>tsUnit.external</title>
     <authors>Steve Fenton</authors>
     <owners>Steve Fenton</owners>
     <description>
-      TypeScript 1.3 compatible update! An xUnit style framework for TypeScript with auto-discovery and assertions. Styled to suit use as an external module.
+      TypeScript 1.5 compatible update! An xUnit style framework for TypeScript with auto-discovery and assertions. Styled to suit use as an external module.
       If you are using internal modules, use the tsUnit NuGet package instead.
     </description>
     <releaseNotes>

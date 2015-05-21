@@ -5,8 +5,8 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <Name>tsUnit.Node.Examples</Name>
     <RootNamespace>tsUnit.Node.Examples</RootNamespace>
-    <ToolsVersionPromptShown>1.1</ToolsVersionPromptShown>
-    <TypeScriptToolsVersion>1.1</TypeScriptToolsVersion>
+    <ToolsVersionPromptShown>1.5</ToolsVersionPromptShown>
+    <TypeScriptToolsVersion>1.5</TypeScriptToolsVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -14,7 +14,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>20c55c8a-bdd2-43d8-8b18-4d17f468706f</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>app.js</StartupFile>
+    <StartupFile>app.ts</StartupFile>
     <StartWebBrowser>False</StartWebBrowser>
     <SearchPath>
     </SearchPath>

@@ -42,7 +42,9 @@ var tsUnit;
                     continue;
                 }
                 for (var unitTestName in testClass) {
-                    if (this.isReservedFunctionName(unitTestName) || (typeof dynamicTestClass[unitTestName] !== 'function') || (testRunLimiter && !testRunLimiter.isTestActive(unitTestName))) {
+                    if (this.isReservedFunctionName(unitTestName)
+                        || (typeof dynamicTestClass[unitTestName] !== 'function')
+                        || (testRunLimiter && !testRunLimiter.isTestActive(unitTestName))) {
                         continue;
                     }
                     if (typeof dynamicTestClass[unitTestName].parameters !== 'undefined') {
@@ -62,7 +64,20 @@ var tsUnit;
             return testResult;
         };
         Test.prototype.showResults = function (target, result) {
-            var template = '<article>' + '<h1>' + this.getTestResult(result) + '</h1>' + '<p>' + this.getTestSummary(result) + '</p>' + this.testRunLimiter.getLimitCleaner() + '<section id="tsFail">' + '<h2>Errors</h2>' + '<ul class="bad">' + this.getTestResultList(result.errors) + '</ul>' + '</section>' + '<section id="tsOkay">' + '<h2>Passing Tests</h2>' + '<ul class="good">' + this.getTestResultList(result.passes) + '</ul>' + '</section>' + '</article>' + this.testRunLimiter.getLimitCleaner();
+            var template = '<article>' +
+                '<h1>' + this.getTestResult(result) + '</h1>' +
+                '<p>' + this.getTestSummary(result) + '</p>' +
+                this.testRunLimiter.getLimitCleaner() +
+                '<section id="tsFail">' +
+                '<h2>Errors</h2>' +
+                '<ul class="bad">' + this.getTestResultList(result.errors) + '</ul>' +
+                '</section>' +
+                '<section id="tsOkay">' +
+                '<h2>Passing Tests</h2>' +
+                '<ul class="good">' + this.getTestResultList(result.passes) + '</ul>' +
+                '</section>' +
+                '</article>' +
+                this.testRunLimiter.getLimitCleaner();
             target.innerHTML = template;
         };
         Test.prototype.getTapResults = function (result) {
@@ -82,8 +97,7 @@ var tsUnit;
                     this.testRunLimiter = new TestRunLimiter();
                 }
             }
-            catch (ex) {
-            }
+            catch (ex) { }
         };
         Test.prototype.isReservedFunctionName = function (functionName) {
             for (var prop in this.reservedMethodNameContainer) {
@@ -116,7 +130,9 @@ var tsUnit;
             return result.errors.length === 0 ? 'Test Passed' : 'Test Failed';
         };
         Test.prototype.getTestSummary = function (result) {
-            return 'Total tests: <span id="tsUnitTotalCout">' + (result.passes.length + result.errors.length).toString() + '</span>. ' + 'Passed tests: <span id="tsUnitPassCount" class="good">' + result.passes.length + '</span>. ' + 'Failed tests: <span id="tsUnitFailCount" class="bad">' + result.errors.length + '</span>.';
+            return 'Total tests: <span id="tsUnitTotalCout">' + (result.passes.length + result.errors.length).toString() + '</span>. ' +
+                'Passed tests: <span id="tsUnitPassCount" class="good">' + result.passes.length + '</span>. ' +
+                'Failed tests: <span id="tsUnitFailCount" class="bad">' + result.errors.length + '</span>.';
         };
         Test.prototype.getTestResultList = function (testResults) {
             var list = '';
@@ -135,7 +151,9 @@ var tsUnit;
                     list += '<li>' + this.testRunLimiter.getLimiterForGroup(group) + result.testName + '<ul>';
                 }
                 var resultClass = (result.message === 'OK') ? 'success' : 'error';
-                var functionLabal = result.funcName + ((result.parameterSetNumber === null) ? '()' : '(' + this.testRunLimiter.getLimiterForTest(group, result.funcName, result.parameterSetNumber) + ' paramater set: ' + result.parameterSetNumber + ')');
+                var functionLabal = result.funcName + ((result.parameterSetNumber === null)
+                    ? '()'
+                    : '(' + this.testRunLimiter.getLimiterForTest(group, result.funcName, result.parameterSetNumber) + ' paramater set: ' + result.parameterSetNumber + ')');
                 list += '<li class="' + resultClass + '">' + this.testRunLimiter.getLimiterForTest(group, result.funcName) + functionLabal + ': ' + this.encodeHtmlEntities(result.message) + '</li>';
             }
             return list + '</ul>';
@@ -236,13 +254,15 @@ var tsUnit;
         TestContext.prototype.areIdentical = function (expected, actual, message) {
             if (message === void 0) { message = ''; }
             if (expected !== actual) {
-                throw this.getError('areIdentical failed when given ' + this.printVariable(expected) + ' and ' + this.printVariable(actual), message);
+                throw this.getError('areIdentical failed when given ' +
+                    this.printVariable(expected) + ' and ' + this.printVariable(actual), message);
             }
         };
         TestContext.prototype.areNotIdentical = function (expected, actual, message) {
             if (message === void 0) { message = ''; }
             if (expected === actual) {
-                throw this.getError('areNotIdentical failed when given ' + this.printVariable(expected) + ' and ' + this.printVariable(actual), message);
+                throw this.getError('areNotIdentical failed when given ' +
+                    this.printVariable(expected) + ' and ' + this.printVariable(actual), message);
             }
         };
         TestContext.prototype.areCollectionsIdentical = function (expected, actual, message) {
@@ -260,17 +280,23 @@ var tsUnit;
                 if (expected === null) {
                     if (actual !== null) {
                         indexString = resultToString(result);
-                        throw _this.getError('areCollectionsIdentical failed when array a' + indexString + ' is null and b' + indexString + ' is not null', message);
+                        throw _this.getError('areCollectionsIdentical failed when array a' +
+                            indexString + ' is null and b' +
+                            indexString + ' is not null', message);
                     }
                     return; // correct: both are nulls
                 }
                 else if (actual === null) {
                     indexString = resultToString(result);
-                    throw _this.getError('areCollectionsIdentical failed when array a' + indexString + ' is not null and b' + indexString + ' is null', message);
+                    throw _this.getError('areCollectionsIdentical failed when array a' +
+                        indexString + ' is not null and b' +
+                        indexString + ' is null', message);
                 }
                 if (expected.length !== actual.length) {
                     indexString = resultToString(result);
-                    throw _this.getError('areCollectionsIdentical failed when length of array a' + indexString + ' (length: ' + expected.length + ') is different of length of array b' + indexString + ' (length: ' + actual.length + ')', message);
+                    throw _this.getError('areCollectionsIdentical failed when length of array a' +
+                        indexString + ' (length: ' + expected.length + ') is different of length of array b' +
+                        indexString + ' (length: ' + actual.length + ')', message);
                 }
                 for (var i = 0; i < expected.length; i++) {
                     if ((expected[i] instanceof Array) && (actual[i] instanceof Array)) {
@@ -281,7 +307,9 @@ var tsUnit;
                     else if (expected[i] !== actual[i]) {
                         result.push(i);
                         indexString = resultToString(result);
-                        throw _this.getError('areCollectionsIdentical failed when element a' + indexString + ' (' + _this.printVariable(expected[i]) + ') is different than element b' + indexString + ' (' + _this.printVariable(actual[i]) + ')', message);
+                        throw _this.getError('areCollectionsIdentical failed when element a' +
+                            indexString + ' (' + _this.printVariable(expected[i]) + ') is different than element b' +
+                            indexString + ' (' + _this.printVariable(actual[i]) + ')', message);
                     }
                 }
                 return;
@@ -364,7 +392,8 @@ var tsUnit;
             }
             var executingTime = getTime() - startOfExecution;
             if (executingTime > timeLimit) {
-                throw this.getError('isExecuteTimeLessThanLimit fails when execution time of given code (' + timeToString(executingTime) + ' ms) ' + 'exceed the given limit(' + timeToString(timeLimit) + ' ms)', message);
+                throw this.getError('isExecuteTimeLessThanLimit fails when execution time of given code (' + timeToString(executingTime) + ' ms) ' +
+                    'exceed the given limit(' + timeToString(timeLimit) + ' ms)', message);
             }
         };
         TestContext.prototype.fail = function (message) {
@@ -415,15 +444,12 @@ var tsUnit;
             for (var _i = 1; _i < arguments.length; _i++) {
                 implementations[_i - 1] = arguments[_i];
             }
-            var fakeType = function () {
-            };
+            var fakeType = function () { };
             this.populateFakeType(fakeType, obj);
             var fake = new fakeType();
             for (var member in fake) {
                 if (typeof fake[member] === 'function') {
-                    fake[member] = function () {
-                        console.log('Default fake called.');
-                    };
+                    fake[member] = function () { console.log('Default fake called.'); };
                 }
             }
             var memberNameIndex = 0;

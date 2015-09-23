@@ -4,7 +4,7 @@
 
     generate(input: number): string {
         var output = '';
-
+        
         if (input % 3 === 0) {
             output += FizzBuzz.fizz;
         }

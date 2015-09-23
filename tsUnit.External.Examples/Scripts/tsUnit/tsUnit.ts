@@ -1,5 +1,7 @@
 module tsUnit {
     export class Test {
+        public privateMemberPrefix = '_';
+        
         private tests: TestDefintion[] = [];
         private testRunLimiter: TestRunLimiter;
         private reservedMethodNameContainer: TestClass = new TestClass();
@@ -39,6 +41,7 @@ module tsUnit {
 
                 for (var unitTestName in testClass) {
                     if (this.isReservedFunctionName(unitTestName)
+                        || (unitTestName.substring(0, this.privateMemberPrefix.length) === this.privateMemberPrefix)
                         || (typeof dynamicTestClass[unitTestName] !== 'function')
                         || (testRunLimiter && !testRunLimiter.isTestActive(unitTestName))) {
                         continue;

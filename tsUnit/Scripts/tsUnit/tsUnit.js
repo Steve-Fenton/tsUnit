@@ -1,8 +1,7 @@
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var tsUnit;
 (function (tsUnit) {
@@ -12,6 +11,7 @@ var tsUnit;
             for (var _i = 0; _i < arguments.length; _i++) {
                 testModules[_i - 0] = arguments[_i];
             }
+            this.privateMemberPrefix = '_';
             this.tests = [];
             this.reservedMethodNameContainer = new TestClass();
             this.createTestLimiter();
@@ -43,6 +43,7 @@ var tsUnit;
                 }
                 for (var unitTestName in testClass) {
                     if (this.isReservedFunctionName(unitTestName)
+                        || (unitTestName.substring(0, this.privateMemberPrefix.length) === this.privateMemberPrefix)
                         || (typeof dynamicTestClass[unitTestName] !== 'function')
                         || (testRunLimiter && !testRunLimiter.isTestActive(unitTestName))) {
                         continue;

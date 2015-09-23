@@ -1,5 +1,3 @@
-/// <reference path="./tsUnit.ts" />
-
 module BadTests {
     export class DeliberateFailures extends tsUnit.TestClass {
         deliberateBadTest() {

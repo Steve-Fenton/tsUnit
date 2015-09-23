@@ -219,6 +219,16 @@ module Tests {
         }
     }
 
+    export class PrivateMembersOnly extends tsUnit.TestClass {
+        private _privateMethod() {
+            throw new Error('This should not be called as it is private, with the default prefix: _');
+        }
+
+        publicMethod() {
+            this.areIdentical(1, 1, "Public method called ok.");
+        }
+    }
+
     export class AssertAreIdenticalTests extends tsUnit.TestClass {
         withIdenticalNumbers() {
             this.areIdentical(5, 5);
@@ -539,7 +549,7 @@ module Tests {
                 fn: () => {
                     throw Error('throw some error');
                 },
-                exceptionString: 'throw some error'
+                errorString: 'throw some error'
             });
         }
 
@@ -551,7 +561,7 @@ module Tests {
                     },
                     message: 'with message'
                 }),
-                exceptionString: "did not throw an error. with message"
+                errorString: "did not throw an error. with message"
             });
         }
 
@@ -563,7 +573,7 @@ module Tests {
                             throw new Error('throw different error');
                         }
                     }),
-                    exceptionString: 'throw some error'
+                    errorString: 'throw some error'
                 })
             });
         }

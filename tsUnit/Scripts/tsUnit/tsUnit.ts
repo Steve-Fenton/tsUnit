@@ -3,6 +3,9 @@
 export class Test {
     public privateMemberPrefix = '_';
 
+    public passes: TestDescription[] = [];
+    public errors: TestDescription[] = [];
+
     private tests: TestDefintion[] = [];
     private testRunLimiter: TestRunLimiter;
     private reservedMethodNameContainer: TestClass = new TestClass();
@@ -25,7 +28,6 @@ export class Test {
     run(testRunLimiter: ITestRunLimiter = null) {
         var parameters: any[][] = null;
         var testContext = new TestContext();
-        var testResult = new TestResult();
 
         if (testRunLimiter == null) {
             testRunLimiter = this.testRunLimiter;
@@ -55,46 +57,56 @@ export class Test {
                             continue;
                         }
 
-                        this.runSingleTest(testResult, testClass, unitTestName, testsGroupName, parameters, parameterIndex);
+                        this.runSingleTest(testClass, unitTestName, testsGroupName, parameters, parameterIndex);
                     }
                 } else {
-                    this.runSingleTest(testResult, testClass, unitTestName, testsGroupName);
+                    this.runSingleTest(testClass, unitTestName, testsGroupName);
                 }
             }
         }
 
-        return testResult;
+        return this;
     }
 
-    showResults(target: HTMLElement, result: TestResult) {
+    showResults(target: string | HTMLElement) {
+        var elem: HTMLElement;
+        if (typeof target === 'string') {
+            var id: string = target;
+            elem = document.getElementById(id);
+        } else {
+            elem = target;
+        }
+
         var template = '<article>' +
-            '<h1>' + this.getTestResult(result) + '</h1>' +
-            '<p>' + this.getTestSummary(result) + '</p>' +
+            '<h1>' + this.getTestResult() + '</h1>' +
+            '<p>' + this.getTestSummary() + '</p>' +
             this.testRunLimiter.getLimitCleaner() +
             '<section id="tsFail">' +
             '<h2>Errors</h2>' +
-            '<ul class="bad">' + this.getTestResultList(result.errors) + '</ul>' +
+            '<ul class="bad">' + this.getTestResultList(this.errors) + '</ul>' +
             '</section>' +
             '<section id="tsOkay">' +
             '<h2>Passing Tests</h2>' +
-            '<ul class="good">' + this.getTestResultList(result.passes) + '</ul>' +
+            '<ul class="good">' + this.getTestResultList(this.passes) + '</ul>' +
             '</section>' +
             '</article>' +
             this.testRunLimiter.getLimitCleaner();
 
-        target.innerHTML = template;
+        elem.innerHTML = template;
+
+        return this;
     }
 
-    getTapResults(result: TestResult) {
+    getTapResults() {
         var newLine = '\r\n';
-        var template = '1..' + (result.passes.length + result.errors.length).toString() + newLine;
+        var template = '1..' + (this.passes.length + this.errors.length).toString() + newLine;
 
-        for (var i = 0; i < result.errors.length; i++) {
-            template += 'not ok ' + result.errors[i].message + ' ' + result.errors[i].testName + newLine;
+        for (var i = 0; i < this.errors.length; i++) {
+            template += 'not ok ' + this.errors[i].message + ' ' + this.errors[i].testName + newLine;
         }
 
-        for (var i = 0; i < result.passes.length; i++) {
-            template += 'ok ' + result.passes[i].testName + newLine;
+        for (var i = 0; i < this.passes.length; i++) {
+            template += 'ok ' + this.passes[i].testName + newLine;
         }
 
         return template;
@@ -117,7 +129,7 @@ export class Test {
         return false;
     }
 
-    private runSingleTest(testResult: TestResult, testClass: TestClass, unitTestName: string, testsGroupName: string, parameters: any[][] = null, parameterSetIndex: number = null) {
+    private runSingleTest(testClass: TestClass, unitTestName: string, testsGroupName: string, parameters: any[][] = null, parameterSetIndex: number = null) {
         if (typeof testClass['setUp'] === 'function') {
             testClass['setUp']();
         }
@@ -127,9 +139,9 @@ export class Test {
             var args = (parameterSetIndex !== null) ? parameters[parameterSetIndex] : null;
             dynamicTestClass[unitTestName].apply(testClass, args);
 
-            testResult.passes.push(new TestDescription(testsGroupName, unitTestName, parameterSetIndex, 'OK'));
+            this.passes.push(new TestDescription(testsGroupName, unitTestName, parameterSetIndex, 'OK'));
         } catch (err) {
-            testResult.errors.push(new TestDescription(testsGroupName, unitTestName, parameterSetIndex, err.toString()));
+            this.errors.push(new TestDescription(testsGroupName, unitTestName, parameterSetIndex, err.toString()));
         }
 
         if (typeof testClass['tearDown'] === 'function') {
@@ -137,14 +149,14 @@ export class Test {
         }
     }
 
-    private getTestResult(result: TestResult) {
-        return result.errors.length === 0 ? 'Test Passed' : 'Test Failed';
+    private getTestResult() {
+        return this.errors.length === 0 ? 'Test Passed' : 'Test Failed';
     }
 
-    private getTestSummary(result: TestResult) {
-        return 'Total tests: <span id="tsUnitTotalCout">' + (result.passes.length + result.errors.length).toString() + '</span>. ' +
-            'Passed tests: <span id="tsUnitPassCount" class="good">' + result.passes.length + '</span>. ' +
-            'Failed tests: <span id="tsUnitFailCount" class="bad">' + result.errors.length + '</span>.';
+    private getTestSummary() {
+        return 'Total tests: <span id="tsUnitTotalCout">' + (this.passes.length + this.errors.length).toString() + '</span>. ' +
+            'Passed tests: <span id="tsUnitPassCount" class="good">' + this.passes.length + '</span>. ' +
+            'Failed tests: <span id="tsUnitFailCount" class="bad">' + this.errors.length + '</span>.';
     }
 
     private getTestResultList(testResults: TestDescription[]) {
@@ -546,9 +558,4 @@ class TestDefintion {
 export class TestDescription {
     constructor(public testName: string, public funcName: string, public parameterSetNumber: number, public message: string) {
     }
-}
-
-export class TestResult {
-    public passes: TestDescription[] = [];
-    public errors: TestDescription[] = [];
 }

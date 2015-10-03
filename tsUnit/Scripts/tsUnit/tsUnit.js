@@ -1,10 +1,17 @@
+/* tsUnit (c) Copyright 2012-2015 Steve Fenton, licensed under Apache 2.0 https://github.com/Steve-Fenton/tsUnit */
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var tsUnit;
-(function (tsUnit) {
+(function (deps, factory) {
+    if (typeof module === 'object' && typeof module.exports === 'object') {
+        var v = factory(require, exports); if (v !== undefined) module.exports = v;
+    }
+    else if (typeof define === 'function' && define.amd) {
+        define(deps, factory);
+    }
+})(["require", "exports"], function (require, exports) {
     var Test = (function () {
         function Test() {
             var testModules = [];
@@ -12,6 +19,8 @@ var tsUnit;
                 testModules[_i - 0] = arguments[_i];
             }
             this.privateMemberPrefix = '_';
+            this.passes = [];
+            this.errors = [];
             this.tests = [];
             this.reservedMethodNameContainer = new TestClass();
             this.createTestLimiter();
@@ -30,7 +39,6 @@ var tsUnit;
             if (testRunLimiter === void 0) { testRunLimiter = null; }
             var parameters = null;
             var testContext = new TestContext();
-            var testResult = new TestResult();
             if (testRunLimiter == null) {
                 testRunLimiter = this.testRunLimiter;
             }
@@ -54,41 +62,50 @@ var tsUnit;
                             if (testRunLimiter && !testRunLimiter.isParametersSetActive(parameterIndex)) {
                                 continue;
                             }
-                            this.runSingleTest(testResult, testClass, unitTestName, testsGroupName, parameters, parameterIndex);
+                            this.runSingleTest(testClass, unitTestName, testsGroupName, parameters, parameterIndex);
                         }
                     }
                     else {
-                        this.runSingleTest(testResult, testClass, unitTestName, testsGroupName);
+                        this.runSingleTest(testClass, unitTestName, testsGroupName);
                     }
                 }
             }
-            return testResult;
+            return this;
         };
-        Test.prototype.showResults = function (target, result) {
+        Test.prototype.showResults = function (target) {
+            var elem;
+            if (typeof target === 'string') {
+                var id = target;
+                elem = document.getElementById(id);
+            }
+            else {
+                elem = target;
+            }
             var template = '<article>' +
-                '<h1>' + this.getTestResult(result) + '</h1>' +
-                '<p>' + this.getTestSummary(result) + '</p>' +
+                '<h1>' + this.getTestResult() + '</h1>' +
+                '<p>' + this.getTestSummary() + '</p>' +
                 this.testRunLimiter.getLimitCleaner() +
                 '<section id="tsFail">' +
                 '<h2>Errors</h2>' +
-                '<ul class="bad">' + this.getTestResultList(result.errors) + '</ul>' +
+                '<ul class="bad">' + this.getTestResultList(this.errors) + '</ul>' +
                 '</section>' +
                 '<section id="tsOkay">' +
                 '<h2>Passing Tests</h2>' +
-                '<ul class="good">' + this.getTestResultList(result.passes) + '</ul>' +
+                '<ul class="good">' + this.getTestResultList(this.passes) + '</ul>' +
                 '</section>' +
                 '</article>' +
                 this.testRunLimiter.getLimitCleaner();
-            target.innerHTML = template;
+            elem.innerHTML = template;
+            return this;
         };
-        Test.prototype.getTapResults = function (result) {
+        Test.prototype.getTapResults = function () {
             var newLine = '\r\n';
-            var template = '1..' + (result.passes.length + result.errors.length).toString() + newLine;
-            for (var i = 0; i < result.errors.length; i++) {
-                template += 'not ok ' + result.errors[i].message + ' ' + result.errors[i].testName + newLine;
+            var template = '1..' + (this.passes.length + this.errors.length).toString() + newLine;
+            for (var i = 0; i < this.errors.length; i++) {
+                template += 'not ok ' + this.errors[i].message + ' ' + this.errors[i].testName + newLine;
             }
-            for (var i = 0; i < result.passes.length; i++) {
-                template += 'ok ' + result.passes[i].testName + newLine;
+            for (var i = 0; i < this.passes.length; i++) {
+                template += 'ok ' + this.passes[i].testName + newLine;
             }
             return template;
         };
@@ -108,7 +125,7 @@ var tsUnit;
             }
             return false;
         };
-        Test.prototype.runSingleTest = function (testResult, testClass, unitTestName, testsGroupName, parameters, parameterSetIndex) {
+        Test.prototype.runSingleTest = function (testClass, unitTestName, testsGroupName, parameters, parameterSetIndex) {
             if (parameters === void 0) { parameters = null; }
             if (parameterSetIndex === void 0) { parameterSetIndex = null; }
             if (typeof testClass['setUp'] === 'function') {
@@ -118,22 +135,22 @@ var tsUnit;
                 var dynamicTestClass = testClass;
                 var args = (parameterSetIndex !== null) ? parameters[parameterSetIndex] : null;
                 dynamicTestClass[unitTestName].apply(testClass, args);
-                testResult.passes.push(new TestDescription(testsGroupName, unitTestName, parameterSetIndex, 'OK'));
+                this.passes.push(new TestDescription(testsGroupName, unitTestName, parameterSetIndex, 'OK'));
             }
             catch (err) {
-                testResult.errors.push(new TestDescription(testsGroupName, unitTestName, parameterSetIndex, err.toString()));
+                this.errors.push(new TestDescription(testsGroupName, unitTestName, parameterSetIndex, err.toString()));
             }
             if (typeof testClass['tearDown'] === 'function') {
                 testClass['tearDown']();
             }
         };
-        Test.prototype.getTestResult = function (result) {
-            return result.errors.length === 0 ? 'Test Passed' : 'Test Failed';
+        Test.prototype.getTestResult = function () {
+            return this.errors.length === 0 ? 'Test Passed' : 'Test Failed';
         };
-        Test.prototype.getTestSummary = function (result) {
-            return 'Total tests: <span id="tsUnitTotalCout">' + (result.passes.length + result.errors.length).toString() + '</span>. ' +
-                'Passed tests: <span id="tsUnitPassCount" class="good">' + result.passes.length + '</span>. ' +
-                'Failed tests: <span id="tsUnitFailCount" class="bad">' + result.errors.length + '</span>.';
+        Test.prototype.getTestSummary = function () {
+            return 'Total tests: <span id="tsUnitTotalCout">' + (this.passes.length + this.errors.length).toString() + '</span>. ' +
+                'Passed tests: <span id="tsUnitPassCount" class="good">' + this.passes.length + '</span>. ' +
+                'Failed tests: <span id="tsUnitFailCount" class="bad">' + this.errors.length + '</span>.';
         };
         Test.prototype.getTestResultList = function (testResults) {
             var list = '';
@@ -164,7 +181,7 @@ var tsUnit;
         };
         return Test;
     })();
-    tsUnit.Test = Test;
+    exports.Test = Test;
     var TestRunLimiterRunAll = (function () {
         function TestRunLimiterRunAll() {
         }
@@ -425,7 +442,7 @@ var tsUnit;
         };
         return TestContext;
     })();
-    tsUnit.TestContext = TestContext;
+    exports.TestContext = TestContext;
     var TestClass = (function (_super) {
         __extends(TestClass, _super);
         function TestClass() {
@@ -436,7 +453,7 @@ var tsUnit;
         };
         return TestClass;
     })(TestContext);
-    tsUnit.TestClass = TestClass;
+    exports.TestClass = TestClass;
     var FakeFactory = (function () {
         function FakeFactory() {
         }
@@ -475,7 +492,7 @@ var tsUnit;
         };
         return FakeFactory;
     })();
-    tsUnit.FakeFactory = FakeFactory;
+    exports.FakeFactory = FakeFactory;
     var TestDefintion = (function () {
         function TestDefintion(testClass, name) {
             this.testClass = testClass;
@@ -492,13 +509,5 @@ var tsUnit;
         }
         return TestDescription;
     })();
-    tsUnit.TestDescription = TestDescription;
-    var TestResult = (function () {
-        function TestResult() {
-            this.passes = [];
-            this.errors = [];
-        }
-        return TestResult;
-    })();
-    tsUnit.TestResult = TestResult;
-})(tsUnit || (tsUnit = {}));
+    exports.TestDescription = TestDescription;
+});

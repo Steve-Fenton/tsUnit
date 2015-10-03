@@ -23,8 +23,8 @@ Please start a discussion if you think a feature is missing or doesn't work as e
 Example
 
 ```TypeScript
-    /// <reference path="tsUnit.ts" />
-    /// <reference path="Calculations.ts" />
+	import * as tsUnit from './Scripts/tsUnit/tsUnit';
+	import * as Calculations from './Scripts/Calculations';
 
     module CalculationsTests {
         export class SimpleMathTests extends tsUnit.TestClass {
@@ -45,21 +45,28 @@ Example
         }
     }
 
-    // new instance of tsUnit - pass in modules that contain test classes
+    // "The One Liner" - you can do this in multiple stages too
+    var test = new tsUnit.Test(CalculationsTests).run().showResults('results');
+```
+
+The multi-line version is also available... in particular this is useful if you want to re-use the result (which you can display as HTML and retrieve TAP output from).
+
+```
+    // Creat the test suite
     var test = new tsUnit.Test(CalculationsTests);
 
-    // Use the built in results display
-    test.showResults(document.getElementById('results'), test.run());
+	// Run the test
+	var result = test.run();
+
+	// Display in the element with id="results"
+	result.showResults('results');
 ```
 
 To run without a browser, you can call ```test.run()``` and use the raw result data yourself...
 
 ```TypeScript
-    // new instance of tsUnit - pass in modules that contain test classes
-    var test = new tsUnit.Test(CalculationsTests);
-
     // Handle the results yourself...
-    var result = test.run();
+    var result = new tsUnit.Test(CalculationsTests).run();
     
     var outcome = (result.errors.length === 0) ? 'Test Passed' : 'Test Failed';
 ```
@@ -67,13 +74,10 @@ To run without a browser, you can call ```test.run()``` and use the raw result d
 Or you can use the TAP (Test Anything Protocol) output:
 
 ```TypeScript
-    // new instance of tsUnit - pass in modules that contain test classes
-    var test = new tsUnit.Test(CalculationsTests);
-
     // TAP output...
-    var result = getTapResults(test.run());
+    var tap = new tsUnit.Test(CalculationsTests).getTapResults();
     
-    console.log(result);
+    console.log(tap);
 ```
 
 License
@@ -81,14 +85,4 @@ License
 
    Copyright 2012 Steve Fenton
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+   Please read the LICENSE file for more details.

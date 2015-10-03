@@ -52,8 +52,8 @@ Please start a discussion if you think a feature is missing or doesn't work as e
 
 The multi-line version is also available... in particular this is useful if you want to re-use the result (which you can display as HTML and retrieve TAP output from).
 
-```
-    // Creat the test suite
+```TypeScript
+    // Create the test suite
     var test = new tsUnit.Test(CalculationsTests);
 
 	// Run the test

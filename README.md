@@ -1,5 +1,4 @@
-tsUnit
-======
+# tsUnit
 
 tsUnit is a unit testing framework for TypeScript, written in TypeScript. It allows you to encapsulate your test functions in classes and modules.
 
@@ -7,20 +6,22 @@ Install via NuGet:
 
 ```PM> Install-Package tsUnit ```
 
-tsUnit is a TypeScript unit testing framework that allows you to define your unit tests inside TypeScript classes and modules.
+NOTE: Version 2.0 has breaking changes, to improve re-use between different module systems. Please read the below to see how to use version 2.0.
 
-tsUnit has built-in assertion helpers you can use in your test.
+tsUnit comes with...
 
-You can use the built-in output to display the test results, or take the test results and customise how they are displayed.
-
-Paul Atryda has also added a neat test-limiter that let's you replay individual tests, groups of tests, or all the of the tests.
+ - Built-in assertion helpers
+ - Built-in HTML or TAP output, or raw data
+ - A test limiter that lets you click to re-play a test, or group of tests without re-running the whole suite (thanks to Paul Atryda)
+ - An easy to use test-double generator
 
 Simple!
 
 It is so easy, you don't even have to download and unzip anything. It is just one file, written in TypeScript... just add tsUnit.ts to your project.
 
 Please start a discussion if you think a feature is missing or doesn't work as expected.
-Example
+
+## Example
 
 ```TypeScript
 	import * as tsUnit from './Scripts/tsUnit/tsUnit';
@@ -80,8 +81,7 @@ Or you can use the TAP (Test Anything Protocol) output:
     console.log(tap);
 ```
 
-License
-=======
+## License
 
    Copyright 2012 Steve Fenton
 

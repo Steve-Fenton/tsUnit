@@ -7,3 +7,5 @@ C:\Users\HP\Source\Repos\tsUnit\tsUnit.Node.Examples\obj\Release\app.js
 C:\Users\HP\Source\Repos\tsUnit\tsUnit.Node.Examples\obj\Release\bin\Microsoft.NodejsTools.WebRole.dll
 C:\Users\stevefe\Source\Repos\tsUnit\tsUnit.Node.Examples\obj\Release\tsUnit.Node.Examples.njsprojResolveAssemblyReference.cache
 C:\Users\stevefe\Source\Repos\tsUnit\tsUnit.Node.Examples\bin\Microsoft.NodejsTools.WebRole.dll
+C:\Users\Sohnee\Documents\GitHub\tsUnit\tsUnit.Node.Examples\obj\Release\tsUnit.Node.Examples.njsprojResolveAssemblyReference.cache
+C:\Users\Sohnee\Documents\GitHub\tsUnit\tsUnit.Node.Examples\bin\Microsoft.NodejsTools.WebRole.dll

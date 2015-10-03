@@ -1,7 +1,5 @@
-window.onload = () => {
-    // Instantiate tsUnit and pass in modules that contain tests
-    var test = new tsUnit.Test(FizzBuzzTests);
+import * as tsUnit from './Scripts/tsUnit/tsUnit';
+import * as FizzBuzzTests from './Scripts/FizzBuzzTests';
+import * as FizzBuzzParameterisedTests from './Scripts/FizzBuzzParameterisedTests';
 
-    // Show the test results
-    test.showResults(document.getElementById('result'), test.run());
-};
+var test = new tsUnit.Test(FizzBuzzTests, FizzBuzzParameterisedTests).run().showResults('result');

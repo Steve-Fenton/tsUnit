@@ -1,20 +1,19 @@
-﻿module Games {
-    export class FizzBuzz {
-        static fizz = 'Fizz';
-        static buzz = 'Buzz';
+﻿export var fizz = 'Fizz';
+export var buzz = 'Buzz';
 
-        generate(input: number): string {
-            var output = '';
+export class Game {
 
-            if (input % 3 === 0) {
-                output += FizzBuzz.fizz;
-            }
+    generate(input: number): string {
+        var output = '';
 
-            if (input % 5 === 0) {
-                output += FizzBuzz.buzz;
-            }
-
-            return output === '' ? input.toString() : output;
+        if (input % 3 === 0) {
+            output += fizz;
         }
+
+        if (input % 5 === 0) {
+            output += buzz;
+        }
+
+        return output === '' ? input.toString() : output;
     }
 }

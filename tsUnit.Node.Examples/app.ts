@@ -9,7 +9,7 @@ var test = new tsUnit.Test(FizzBuzzTests);
 var result = test.run();
 
 // Show the test results (TAP output)
-console.log(test.getTapResults(result));
+console.log(result.getTapResults());
 
 // Show the test results (Your own custom version)
 console.log('Errors: ' + result.errors.length);

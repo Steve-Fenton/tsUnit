@@ -86,8 +86,9 @@
   <PropertyGroup>
     <PostBuildEvent>XCOPY $(ProjectDir)Scripts\tsUnit\tsUnit.ts $(SolutionDir)tsUnit.Packager\content\Scripts\tsUnit /y
 
+
 XCOPY $(ProjectDir)Scripts\tsUnit\tsUnit.ts $(SolutionDir)tsUnit.External.Packager\content\Scripts\tsUnit /y
 
-echo export = tsUnit; &gt;&gt; $(SolutionDir)tsUnit.External.Packager\content\Scripts\tsUnit\tsUnit.ts</PostBuildEvent>
+</PostBuildEvent>
   </PropertyGroup>
 </Project>

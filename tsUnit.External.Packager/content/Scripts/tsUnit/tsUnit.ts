@@ -68,7 +68,15 @@ export class Test {
         return this;
     }
 
-    showResults(target: HTMLElement) {
+    showResults(target: string | HTMLElement) {
+        var elem: HTMLElement;
+        if (typeof target === 'string') {
+            var id: string = target;
+            elem = document.getElementById(id);
+        } else {
+            elem = target;
+        }
+
         var template = '<article>' +
             '<h1>' + this.getTestResult() + '</h1>' +
             '<p>' + this.getTestSummary() + '</p>' +
@@ -84,7 +92,9 @@ export class Test {
             '</article>' +
             this.testRunLimiter.getLimitCleaner();
 
-        target.innerHTML = template;
+        elem.innerHTML = template;
+
+        return this;
     }
 
     getTapResults() {
@@ -548,4 +558,4 @@ class TestDefintion {
 export class TestDescription {
     constructor(public testName: string, public funcName: string, public parameterSetNumber: number, public message: string) {
     }
-}export = tsUnit; 
+}

@@ -2,11 +2,12 @@
 <package >
   <metadata>
     <id>tsUnit.external</id>
-    <version>1.9.0</version>
+    <version>2.0.0</version>
     <title>tsUnit.external</title>
     <authors>Steve Fenton</authors>
     <owners>Steve Fenton</owners>
     <description>
+      There is no longer a fundamental difference between tsUnit and tsUnit.external as tsUnit now uses UMD modules.
       TypeScript 1.6 compatible update! An xUnit style framework for TypeScript with auto-discovery and assertions. Styled to suit use as an external module.
       If you are using internal modules, use the tsUnit NuGet package instead.
     </description>

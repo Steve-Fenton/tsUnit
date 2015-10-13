@@ -23,28 +23,34 @@ Please start a discussion if you think a feature is missing or doesn't work as e
 
 ## Example
 
-```TypeScript
-	import * as tsUnit from './Scripts/tsUnit/tsUnit';
-	import * as Calculations from './Scripts/Calculations';
+Test modules look like this...
 
-    module CalculationsTests {
-        export class SimpleMathTests extends tsUnit.TestClass {
-    
-            private target = new Calculations.SimpleMath();
-    
-            addTwoNumbersWith1And2Expect3() {
-                var result = this.target.addTwoNumbers(1, 2);
-    
-                this.areIdentical(3, result);
-            }
-    
-            addTwoNumbersWith3And2Expect5() {
-                var result = this.target.addTwoNumbers(3, 2);
-    
-                this.areIdentical(4, result); // Deliberate error
-            }
+```TypeScript
+    import * as tsUnit from './Scripts/tsUnit/tsUnit';
+    import * as Calculations from './Scripts/Calculations';
+	
+    export class SimpleMathTests extends tsUnit.TestClass {
+	
+        private target = new Calculations.SimpleMath();
+	
+        addTwoNumbersWith1And2Expect3() {
+             var result = this.target.addTwoNumbers(1, 2);
+	
+            this.areIdentical(3, result);
+        }
+	
+        addTwoNumbersWith3And2Expect5() {
+            var result = this.target.addTwoNumbers(3, 2);
+	
+            this.areIdentical(4, result); // Deliberate error
         }
     }
+```
+
+Composing your test suite goes as follows...
+
+```TypeScript
+    import * as CalculationsTests from './Scripts/CalculationsTests';
 
     // "The One Liner" - you can do this in multiple stages too
     var test = new tsUnit.Test(CalculationsTests).run().showResults('results');
@@ -56,11 +62,11 @@ The multi-line version is also available... in particular this is useful if you 
     // Create the test suite
     var test = new tsUnit.Test(CalculationsTests);
 
-	// Run the test
-	var result = test.run();
+    // Run the test
+    var result = test.run();
 
-	// Display in the element with id="results"
-	result.showResults('results');
+    // Display in the element with id="results"
+    result.showResults('results');
 ```
 
 To run without a browser, you can call ```test.run()``` and use the raw result data yourself...

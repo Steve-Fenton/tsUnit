@@ -372,7 +372,10 @@ var __extends = (this && this.__extends) || function (d, b) {
             if (message === void 0) { message = ''; }
             if (errorString === void 0) { errorString = ''; }
             var actual;
-            if (a.fn) {
+            if (typeof a === 'function') {
+                actual = a;
+            }
+            else if (a.fn) {
                 actual = a.fn;
                 message = a.message;
                 errorString = a.exceptionString;

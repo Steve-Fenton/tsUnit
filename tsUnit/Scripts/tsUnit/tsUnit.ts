@@ -423,7 +423,9 @@ export class TestContext {
     protected throws(a: any, message = '', errorString = '') {
         var actual: () => void;
 
-        if (a.fn) {
+        if (typeof a === 'function') {
+            actual = a;
+        } else if (a.fn) {
             actual = a.fn;
             message = a.message;
             errorString = a.exceptionString;

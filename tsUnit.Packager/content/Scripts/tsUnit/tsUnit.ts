@@ -423,7 +423,9 @@ export class TestContext {
     protected throws(a: any, message = '', errorString = '') {
         var actual: () => void;
 
-        if (a.fn) {
+        if (typeof a === 'function') {
+            actual = a;
+        } else if (a.fn) {
             actual = a.fn;
             message = a.message;
             errorString = a.exceptionString;
@@ -444,6 +446,14 @@ export class TestContext {
         }
         if (!isThrown) {
             throw this.getError('did not throw an error', message || '');
+        }
+    }
+
+    protected doesNotThrow(actual: () => void, message?: string): void {
+        try {
+            actual();
+        } catch (ex) {
+            throw this.getError('threw an error ' + ex, message || '');
         }
     }
 

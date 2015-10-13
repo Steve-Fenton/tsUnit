@@ -449,6 +449,14 @@ export class TestContext {
         }
     }
 
+    protected doesNotThrow(actual: () => void, message?: string): void {
+        try {
+            actual();
+        } catch (ex) {
+            throw this.getError('threw an error ' + ex, message || '');
+        }
+    }
+
     protected executesWithin(actual: () => void, timeLimit: number, message: string = null): void {
         function getTime() {
             return window.performance.now();

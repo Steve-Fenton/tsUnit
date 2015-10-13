@@ -587,3 +587,20 @@ export class ThrowsTests extends tsUnit.TestClass {
         this.throws(() => this.throws(null));
     }
 }
+
+export class DoesNotThrowTests extends tsUnit.TestClass {
+    doesNotThrowPassingTest() {
+        this.doesNotThrow(() => {
+            console.log('Does not throw');
+        });
+    }
+
+    functionsFails() {
+        this.throws(() => {
+            // An error should be thrown
+            this.doesNotThrow(() => {
+                throw Error('throw some error');
+            });
+        });
+    }
+}

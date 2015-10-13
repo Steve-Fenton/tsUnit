@@ -396,6 +396,14 @@ var __extends = (this && this.__extends) || function (d, b) {
                 throw this.getError('did not throw an error', message || '');
             }
         };
+        TestContext.prototype.doesNotThrow = function (actual, message) {
+            try {
+                actual();
+            }
+            catch (ex) {
+                throw this.getError('threw an error ' + ex, message || '');
+            }
+        };
         TestContext.prototype.executesWithin = function (actual, timeLimit, message) {
             if (message === void 0) { message = null; }
             function getTime() {

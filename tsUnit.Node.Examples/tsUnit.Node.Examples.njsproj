@@ -5,8 +5,8 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <Name>tsUnit.Node.Examples</Name>
     <RootNamespace>tsUnit.Node.Examples</RootNamespace>
-    <ToolsVersionPromptShown>1.6</ToolsVersionPromptShown>
-    <TypeScriptToolsVersion>1.6</TypeScriptToolsVersion>
+    <ToolsVersionPromptShown>1.8</ToolsVersionPromptShown>
+    <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>

@@ -4,14 +4,15 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-(function (deps, factory) {
+(function (factory) {
     if (typeof module === 'object' && typeof module.exports === 'object') {
         var v = factory(require, exports); if (v !== undefined) module.exports = v;
     }
     else if (typeof define === 'function' && define.amd) {
-        define(deps, factory);
+        define(["require", "exports"], factory);
     }
-})(["require", "exports"], function (require, exports) {
+})(function (require, exports) {
+    "use strict";
     var Test = (function () {
         function Test() {
             var testModules = [];
@@ -180,7 +181,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             return input.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
         };
         return Test;
-    })();
+    }());
     exports.Test = Test;
     var TestRunLimiterRunAll = (function () {
         function TestRunLimiterRunAll() {
@@ -195,7 +196,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             return true;
         };
         return TestRunLimiterRunAll;
-    })();
+    }());
     var TestRunLimiter = (function () {
         function TestRunLimiter() {
             this.groupName = null;
@@ -261,7 +262,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             }
         };
         return TestRunLimiter;
-    })();
+    }());
     var TestContext = (function () {
         function TestContext() {
         }
@@ -452,7 +453,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             return '{' + (typeof variable) + '} "' + variable + '"';
         };
         return TestContext;
-    })();
+    }());
     exports.TestContext = TestContext;
     var TestClass = (function (_super) {
         __extends(TestClass, _super);
@@ -463,7 +464,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             method.parameters = parametersArray;
         };
         return TestClass;
-    })(TestContext);
+    }(TestContext));
     exports.TestClass = TestClass;
     var FakeFactory = (function () {
         function FakeFactory() {
@@ -502,7 +503,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             fake.prototype = new __();
         };
         return FakeFactory;
-    })();
+    }());
     exports.FakeFactory = FakeFactory;
     var TestDefintion = (function () {
         function TestDefintion(testClass, name) {
@@ -510,7 +511,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             this.name = name;
         }
         return TestDefintion;
-    })();
+    }());
     var TestDescription = (function () {
         function TestDescription(testName, funcName, parameterSetNumber, message) {
             this.testName = testName;
@@ -519,6 +520,6 @@ var __extends = (this && this.__extends) || function (d, b) {
             this.message = message;
         }
         return TestDescription;
-    })();
+    }());
     exports.TestDescription = TestDescription;
 });

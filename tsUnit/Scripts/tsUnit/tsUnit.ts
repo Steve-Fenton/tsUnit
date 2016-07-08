@@ -267,7 +267,7 @@ class TestRunLimiter implements ITestRunLimiter {
     }
 
     private setRefreshOnLinksWithHash() {
-        var previousHandler = window.onhashchange;
+        var previousHandler = window.onhashchange.bind(window);
 
         window.onhashchange = function (ev: HashChangeEvent) {
             window.location.reload();

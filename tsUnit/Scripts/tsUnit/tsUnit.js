@@ -241,7 +241,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             window.onhashchange = function (ev) {
                 window.location.reload();
                 if (typeof previousHandler === 'function') {
-                    previousHandler(ev);
+                    previousHandler.call(window, ev);
                 }
             };
         };

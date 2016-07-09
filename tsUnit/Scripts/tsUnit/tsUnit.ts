@@ -267,13 +267,13 @@ class TestRunLimiter implements ITestRunLimiter {
     }
 
     private setRefreshOnLinksWithHash() {
-        var previousHandler = window.onhashchange.bind(window);
+        var previousHandler = window.onhashchange;
 
         window.onhashchange = function (ev: HashChangeEvent) {
             window.location.reload();
 
             if (typeof previousHandler === 'function') {
-                previousHandler(ev);
+                previousHandler.call(window, ev);
             }
         };
     }

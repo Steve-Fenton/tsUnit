@@ -1,4 +1,4 @@
-import * as tsUnit from './tsunit';
+import * as tsUnit from './tsUnit';
 
 export class RealClass {
     public name = 'Real';

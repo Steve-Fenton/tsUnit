@@ -216,7 +216,7 @@ class TestRunLimiterRunAll implements ITestRunLimiter {
     }
 }
 
-class TestRunLimiter implements ITestRunLimiter {
+export class TestRunLimiter implements ITestRunLimiter {
     private groupName: string = null;
     private testName: string = null;
     private parameterSet: number = null;

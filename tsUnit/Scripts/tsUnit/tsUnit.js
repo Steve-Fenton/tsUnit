@@ -34,7 +34,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         }
         Test.prototype.addTestClass = function (testClass, name) {
             if (name === void 0) { name = 'Tests'; }
-            this.tests.push(new TestDefintion(testClass, name));
+            this.tests.push(new TestDefinition(testClass, name));
         };
         Test.prototype.run = function (testRunLimiter) {
             if (testRunLimiter === void 0) { testRunLimiter = null; }
@@ -263,6 +263,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         return TestRunLimiter;
     }());
+    exports.TestRunLimiter = TestRunLimiter;
     var TestContext = (function () {
         function TestContext() {
         }
@@ -505,13 +506,14 @@ var __extends = (this && this.__extends) || function (d, b) {
         return FakeFactory;
     }());
     exports.FakeFactory = FakeFactory;
-    var TestDefintion = (function () {
-        function TestDefintion(testClass, name) {
+    var TestDefinition = (function () {
+        function TestDefinition(testClass, name) {
             this.testClass = testClass;
             this.name = name;
         }
-        return TestDefintion;
+        return TestDefinition;
     }());
+    exports.TestDefinition = TestDefinition;
     var TestDescription = (function () {
         function TestDescription(testName, funcName, parameterSetNumber, message) {
             this.testName = testName;

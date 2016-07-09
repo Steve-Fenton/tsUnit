@@ -46,14 +46,14 @@ export class AsyncParameterizedTest extends TestClass {
   constructor() {
     super();
 
-    let parameters = [];
+    let parameters:number[][] = [];
 
     for (var i=0; i < 10; ++i) parameters.push([i, 2*i]);
 
     this.parameterizeUnitTest(this.testCheckMultiplication, parameters);
   }
 
-  testCheckMultiplication(a,b) {
+  testCheckMultiplication(a:number,b:number) {
     return Promise.resolve(a)
       .then((x)=>this.areIdentical(b, 2*x));
   }

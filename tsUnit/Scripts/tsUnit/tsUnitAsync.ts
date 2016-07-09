@@ -93,7 +93,7 @@ export class TestAsync extends Test {
         let parameters = dynamicTestClass[unitTestName].parameters;
         let maxIndex = parameters.length - 1;
         var index = parameterIndex;
-        while (index < parameters.length && !testRunLimiter.isParametersSetActive(index)) {
+        while (index < parameters.length && (!testRunLimiter || !testRunLimiter.isParametersSetActive(index))) {
             ++index;
         } 
         if (index < parameters.length) {

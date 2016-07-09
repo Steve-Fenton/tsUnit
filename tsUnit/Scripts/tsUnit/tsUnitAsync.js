@@ -83,7 +83,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             var parameters = dynamicTestClass[unitTestName].parameters;
             var maxIndex = parameters.length - 1;
             var index = parameterIndex;
-            while (index < parameters.length && !testRunLimiter.isParametersSetActive(index)) {
+            while (index < parameters.length && (!testRunLimiter || !testRunLimiter.isParametersSetActive(index))) {
                 ++index;
             }
             if (index < parameters.length) {

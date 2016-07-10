@@ -51,6 +51,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="content\Scripts\tsUnit\npm-publish.bat" />
+    <None Include="content\Scripts\tsUnit\package.json" />
     <None Include="NuGetPackage.ps1" />
     <None Include="NuGetSetup.ps1" />
     <None Include="NuGet.exe" />

@@ -1,0 +1,26 @@
+{
+    "author": "Steve Fenton",
+    "name": "tsunit.external",
+    "description": "Unit testing framework for TypeScript.",
+    "keywords": [
+        "tsunit",
+        "typescript",
+        "unit",
+        "testing"
+    ],
+    "version": "2.0.2",
+    "homepage": "https://github.com/Steve-Fenton/tsUnit",
+    "bugs": "https://github.com/Steve-Fenton/tsUnit/issues",
+    "license": "Apache-2.0",
+    "files": [ "tsUnit.ts", "tsUnit.js" ],
+    "repository": {
+        "url": "https://github.com/Steve-Fenton/tsUnit"
+    },
+    "main": "tsUnit.js",
+    "dependencies": { },
+    "devDependencies": { },
+    "optionalDependencies": { },
+    "engines": {
+        "node": "*"
+    }
+}

@@ -1,3 +1,4 @@
+"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -32,5 +33,5 @@ var FizzBuzzTests = (function (_super) {
         this.areIdentical("FizzBuzz", target.generate(45));
     };
     return FizzBuzzTests;
-})(tsUnit.TestClass);
+}(tsUnit.TestClass));
 exports.FizzBuzzTests = FizzBuzzTests;

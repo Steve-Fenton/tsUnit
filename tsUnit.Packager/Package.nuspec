@@ -2,18 +2,19 @@
 <package >
   <metadata>
     <id>tsUnit</id>
-    <version>2.0.1</version>
+    <version>2.0.2</version>
     <title>tsUnit</title>
     <authors>Steve Fenton</authors>
     <owners>Steve Fenton</owners>
     <description>
-      TypeScript 1.6 compatible update! An xUnit style framework for TypeScript with auto-discovery and assertions. Styled to suit use as an internal module.
+      TypeScript 1.8 compatible update! An xUnit style framework for TypeScript with auto-discovery, async tests, and assertions.
       If you are using external modules, use the tsUnit.External NuGet package instead.
     </description>
     <releaseNotes>
+      Added Async Support (by Harald Niesche)
     </releaseNotes>
     <summary>
-      TS 1.6 version! An xUnit style framework for TypeScript with auto-discovery and assertions. Styled to suit use as an internal module.
+      An xUnit style framework for TypeScript with auto-discovery, async tests, and assertions.
     </summary>
     <language>en-US</language>
     <projectUrl>https://github.com/Steve-Fenton/tsUnit</projectUrl>

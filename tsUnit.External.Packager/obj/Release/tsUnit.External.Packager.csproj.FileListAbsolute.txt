@@ -1,0 +1,4 @@
+C:\Code\GitHub\Repos\tsUnit\tsUnit.External.Packager\bin\Release\tsUnit.External.Packager.dll
+C:\Code\GitHub\Repos\tsUnit\tsUnit.External.Packager\bin\Release\tsUnit.External.Packager.pdb
+C:\Code\GitHub\Repos\tsUnit\tsUnit.External.Packager\obj\Release\tsUnit.External.Packager.dll
+C:\Code\GitHub\Repos\tsUnit\tsUnit.External.Packager\obj\Release\tsUnit.External.Packager.pdb

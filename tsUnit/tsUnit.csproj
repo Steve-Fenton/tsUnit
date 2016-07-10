@@ -27,9 +27,11 @@
     <Content Include="Scripts\require.js" />
     <Content Include="tsUnit.css" />
     <Content Include="tsUnit.htm" />
+    <Content Include="tsUnitAsync.htm" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
+    <TypeScriptCompile Include="appAsync.ts" />
     <TypeScriptCompile Include="Scripts\tsUnit\BadTests.ts" />
     <TypeScriptCompile Include="Scripts\tsUnit\Tests.ts" />
     <TypeScriptCompile Include="Scripts\tsUnit\tsUnit.ts">

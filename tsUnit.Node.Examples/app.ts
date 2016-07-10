@@ -1,6 +1,6 @@
-﻿import tsUnit = require('./node_modules/tsunit.external/tsUnit');
-import FizzBuzzTests = require('./Scripts/FizzBuzzTests');
-import readline = require('readline');
+﻿import * as tsUnit from './node_modules/tsunit.external/tsUnit';
+import * as FizzBuzzTests from './Scripts/FizzBuzzTests';
+import * as readline from 'readline';
 
 // Instantiate tsUnit and pass in modules that contain tests
 var test = new tsUnit.Test(FizzBuzzTests);

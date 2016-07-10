@@ -1,3 +1,4 @@
+"use strict";
 var FizzBuzz = (function () {
     function FizzBuzz() {
     }
@@ -12,5 +13,5 @@ var FizzBuzz = (function () {
         return output === '' ? input : output;
     };
     return FizzBuzz;
-})();
+}());
 module.exports = FizzBuzz;

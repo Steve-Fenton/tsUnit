@@ -8,6 +8,6 @@
     "email": "npm@stevefenton.co.uk"
   },
   "dependencies": {
-    "tsunit.external": "^2.0.0"
+    "tsunit.external": "^2.0.2"
   }
 }

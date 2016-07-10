@@ -32,11 +32,14 @@
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
     <TypeScriptCompile Include="appAsync.ts" />
+    <TypeScriptCompile Include="Scripts\tsUnit\AsyncTests.ts" />
     <TypeScriptCompile Include="Scripts\tsUnit\BadTests.ts" />
+    <TypeScriptCompile Include="Scripts\tsUnit\promise.d.ts" />
     <TypeScriptCompile Include="Scripts\tsUnit\Tests.ts" />
     <TypeScriptCompile Include="Scripts\tsUnit\tsUnit.ts">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="Scripts\tsUnit\tsUnitAsync.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -90,6 +93,32 @@
 
 
 XCOPY $(ProjectDir)Scripts\tsUnit\tsUnit.ts $(SolutionDir)tsUnit.External.Packager\content\Scripts\tsUnit /y
+
+
+XCOPY $(ProjectDir)Scripts\tsUnit\tsUnit.js $(SolutionDir)tsUnit.Packager\content\Scripts\tsUnit /y
+
+
+XCOPY $(ProjectDir)Scripts\tsUnit\tsUnit.js $(SolutionDir)tsUnit.External.Packager\content\Scripts\tsUnit /y
+
+
+
+XCOPY $(ProjectDir)Scripts\tsUnit\tsUnitAsync.ts $(SolutionDir)tsUnit.Packager\content\Scripts\tsUnit /y
+
+
+XCOPY $(ProjectDir)Scripts\tsUnit\tsUnitAsync.ts $(SolutionDir)tsUnit.External.Packager\content\Scripts\tsUnit /y
+
+
+XCOPY $(ProjectDir)Scripts\tsUnit\tsUnitAsync.js $(SolutionDir)tsUnit.Packager\content\Scripts\tsUnit /y
+
+
+XCOPY $(ProjectDir)Scripts\tsUnit\tsUnitAsync.js $(SolutionDir)tsUnit.External.Packager\content\Scripts\tsUnit /y
+
+
+
+XCOPY $(ProjectDir)Scripts\tsUnit\promise.d.ts $(SolutionDir)tsUnit.Packager\content\Scripts\tsUnit /y
+
+
+XCOPY $(ProjectDir)Scripts\tsUnit\promise.d.ts $(SolutionDir)tsUnit.External.Packager\content\Scripts\tsUnit /y
 
 </PostBuildEvent>
   </PropertyGroup>

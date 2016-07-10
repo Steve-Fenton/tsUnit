@@ -67,7 +67,13 @@
     <Folder Include="src\" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="content\Scripts\tsUnit\promise.d.ts" />
     <TypeScriptCompile Include="content\Scripts\tsUnit\tsUnit.ts" />
+    <TypeScriptCompile Include="content\Scripts\tsUnit\tsUnitAsync.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="content\Scripts\tsUnit\tsUnit.js" />
+    <Content Include="content\Scripts\tsUnit\tsUnitAsync.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

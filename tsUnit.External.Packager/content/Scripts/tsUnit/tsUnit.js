@@ -27,14 +27,33 @@ var __extends = (this && this.__extends) || function (d, b) {
             this.createTestLimiter();
             for (var i = 0; i < testModules.length; i++) {
                 var testModule = testModules[i];
-                for (var testClass in testModule) {
-                    this.addTestClass(new testModule[testClass](), testClass);
+                if (testModule.hasOwnProperty("name")) {
+                    var name = testModule["name"];
+                    this.addTestClass(new testModule, name);
+                }
+                else {
+                    for (var prop in testModule) {
+                        this.addTestClass(new testModule[prop], prop);
+                    }
                 }
             }
         }
         Test.prototype.addTestClass = function (testClass, name) {
             if (name === void 0) { name = 'Tests'; }
             this.tests.push(new TestDefinition(testClass, name));
+        };
+        ///http://stackoverflow.com/questions/31423573/how-to-enumerate-es6-class-methods
+        Test.prototype.getPropertyNames = function (type) {
+            var results = [];
+            for (var _i = 0, _a = Object.getOwnPropertyNames(Object.getPrototypeOf(type)); _i < _a.length; _i++) {
+                var name_1 = _a[_i];
+                var method = type[name_1];
+                // Supposedly you'd like to skip constructor
+                if (!(method instanceof Function) || method === type || method.prototype === Object.getPrototypeOf(type))
+                    continue;
+                results.push(name_1);
+            }
+            return results;
         };
         Test.prototype.run = function (testRunLimiter) {
             if (testRunLimiter === void 0) { testRunLimiter = null; }
@@ -50,7 +69,9 @@ var __extends = (this && this.__extends) || function (d, b) {
                 if (testRunLimiter && !testRunLimiter.isTestsGroupActive(testsGroupName)) {
                     continue;
                 }
-                for (var unitTestName in testClass) {
+                var propertyNames = this.getPropertyNames(testClass);
+                for (var j = 0; j < propertyNames.length; j++) {
+                    var unitTestName = propertyNames[j];
                     if (this.isReservedFunctionName(unitTestName)
                         || (unitTestName.substring(0, this.privateMemberPrefix.length) === this.privateMemberPrefix)
                         || (typeof dynamicTestClass[unitTestName] !== 'function')

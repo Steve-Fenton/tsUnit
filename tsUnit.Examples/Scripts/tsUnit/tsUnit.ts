@@ -15,14 +15,32 @@ export class Test {
 
         for (var i = 0; i < testModules.length; i++) {
             var testModule = testModules[i];
-            for (var testClass in testModule) {
-                this.addTestClass(new testModule[testClass](), testClass);
+            if (testModule.hasOwnProperty("name")) {
+                var name = testModule["name"];
+                this.addTestClass(new testModule, name);
+            } else {
+                for (var prop in testModule) {
+                    this.addTestClass(new testModule[prop], prop);
+                }
             }
+
         }
     }
 
     addTestClass(testClass: TestClass, name: string = 'Tests'): void {
         this.tests.push(new TestDefinition(testClass, name));
+    }
+
+    ///http://stackoverflow.com/questions/31423573/how-to-enumerate-es6-class-methods
+    getPropertyNames(type: any): any[] {
+        let results: any[] = [];
+        for (let name of Object.getOwnPropertyNames(Object.getPrototypeOf(type))) {
+            let method = type[name];
+            // Supposedly you'd like to skip constructor
+            if (!(method instanceof Function) || method === type || method.prototype === Object.getPrototypeOf(type)) continue;
+            results.push(name);
+        }
+        return results;
     }
 
     run(testRunLimiter: ITestRunLimiter = null) {
@@ -42,7 +60,9 @@ export class Test {
                 continue;
             }
 
-            for (var unitTestName in testClass) {
+            var propertyNames = this.getPropertyNames(testClass);
+            for (var j = 0; j < propertyNames.length; j++) {
+                let unitTestName = propertyNames[j];
                 if (this.isReservedFunctionName(unitTestName)
                     || (unitTestName.substring(0, this.privateMemberPrefix.length) === this.privateMemberPrefix)
                     || (typeof dynamicTestClass[unitTestName] !== 'function')

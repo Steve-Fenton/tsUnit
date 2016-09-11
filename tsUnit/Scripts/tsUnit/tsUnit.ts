@@ -30,7 +30,7 @@ export class Test {
     addTestClass(testClass: TestClass, name: string = 'Tests'): void {
         this.tests.push(new TestDefinition(testClass, name));
     }
-    
+
     run(testRunLimiter: ITestRunLimiter = null) {
         var parameters: any[][] = null;
         var testContext = new TestContext();
@@ -110,11 +110,11 @@ export class Test {
         var template = '1..' + (this.passes.length + this.errors.length).toString() + newLine;
 
         for (var i = 0; i < this.errors.length; i++) {
-            template += 'not ok ' + this.errors[i].message + ' ' + this.errors[i].testName + newLine;
+            template += 'not ok ' + this.errors[i].message + ' ' + this.errors[i].testName + ':' + this.errors[i].funcName + newLine;
         }
 
         for (var i = 0; i < this.passes.length; i++) {
-            template += 'ok ' + this.passes[i].testName + newLine;
+            template += 'ok ' + this.passes[i].testName + ':' + this.passes[i].funcName + newLine;
         }
 
         return template;
@@ -552,7 +552,7 @@ export class FakeFactory {
         for (var i = 0; i < properties.length; i++) {
             var property = properties[i];
             fake[property] = toCopy[property];
-            
+
         }
 
         var __: any = function () {
@@ -591,7 +591,7 @@ export class FunctionPropertyHelper {
         this.walkImpl(obj.prototype, results);
         this.walkImpl(prototype, results);
     }
-    static walk(obj: any) : string[]{
+    static walk(obj: any): string[] {
         const results = new Set<string>();
         this.walkImpl(obj, results);
         return Array.from(results);
@@ -602,9 +602,9 @@ export class FunctionPropertyHelper {
                 var method = type[mem];
                 return method instanceof Function &&
                     (method !== type &&
-                    method.prototype !==
-                    Object
-                    .getPrototypeOf(type));
+                        method.prototype !==
+                        Object
+                            .getPrototypeOf(type));
 
             });
 
@@ -618,9 +618,9 @@ export class FunctionPropertyHelper {
         return properties.filter(mem => {
             var method = type[mem];
             return method !== type &&
-                    method.prototype !==
-                    Object
-                        .getPrototypeOf(type);
+                method.prototype !==
+                Object
+                    .getPrototypeOf(type);
 
         });
     }

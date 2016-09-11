@@ -117,7 +117,7 @@ export class TearDownAndSetUpTests extends tsUnit.TestClass {
         this.areIdentical(testPropertyOnBegin, '', "TestProperty should be empty on start");
         this.isTrue((results.passes.length == 2) && (results.errors.length == 1), "All internal tests should passed (appertly setUp didn't work)");
     }
-
+    
     testOfSetUpWithParameters() {
         var stub = new SetUpWithParametersTestClassStub();
         var testPropertyOnBegin = stub.TestProperty;

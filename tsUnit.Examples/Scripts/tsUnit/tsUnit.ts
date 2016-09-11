@@ -31,18 +31,6 @@ export class Test {
         this.tests.push(new TestDefinition(testClass, name));
     }
 
-    ///http://stackoverflow.com/questions/31423573/how-to-enumerate-es6-class-methods
-    getPropertyNames(type: any): any[] {
-        let results: any[] = [];
-        for (let name of Object.getOwnPropertyNames(Object.getPrototypeOf(type))) {
-            let method = type[name];
-            // Supposedly you'd like to skip constructor
-            if (!(method instanceof Function) || method === type || method.prototype === Object.getPrototypeOf(type)) continue;
-            results.push(name);
-        }
-        return results;
-    }
-
     run(testRunLimiter: ITestRunLimiter = null) {
         var parameters: any[][] = null;
         var testContext = new TestContext();
@@ -60,7 +48,7 @@ export class Test {
                 continue;
             }
 
-            var propertyNames = this.getPropertyNames(testClass);
+            var propertyNames = FunctionPropertyHelper.getFunctionNames(testClass);
             for (var j = 0; j < propertyNames.length; j++) {
                 let unitTestName = propertyNames[j];
                 if (this.isReservedFunctionName(unitTestName)
@@ -141,12 +129,9 @@ export class Test {
     }
 
     protected isReservedFunctionName(functionName: string): boolean {
-        for (var prop in this.reservedMethodNameContainer) {
-            if (prop === functionName) {
-                return true;
-            }
-        }
-        return false;
+        return FunctionPropertyHelper
+            .getFunctionNames(this.reservedMethodNameContainer)
+            .some(mem => mem === functionName);
     }
 
     private runSingleTest(testClass: TestClass, unitTestName: string, testsGroupName: string, parameters: any[][] = null, parameterSetIndex: number = null) {
@@ -546,12 +531,10 @@ export class FakeFactory {
         this.populateFakeType(fakeType, obj);
         var fake: any = new fakeType();
 
-        for (var member in fake) {
-            if (typeof fake[member] === 'function') {
-                fake[member] = function () { console.log('Default fake called.'); };
-            }
+        var propertyNames = FunctionPropertyHelper.getAllPropertyNames(obj);
+        for (var k = 0; k < propertyNames.length; k++) {
+            fake[propertyNames[k]] = function () { console.log('Default fake called.'); };
         }
-
         var memberNameIndex = 0;
         var memberValueIndex = 1;
 
@@ -564,10 +547,12 @@ export class FakeFactory {
     }
 
     private static populateFakeType(fake: any, toCopy: any) {
-        for (var property in toCopy) {
-            if (toCopy.hasOwnProperty(property)) {
-                fake[property] = toCopy[property];
-            }
+
+        let properties = FunctionPropertyHelper.getAllPropertyNames(toCopy);
+        for (var i = 0; i < properties.length; i++) {
+            var property = properties[i];
+            fake[property] = toCopy[property];
+
         }
 
         var __: any = function () {
@@ -587,5 +572,56 @@ export class TestDefinition {
 
 export class TestDescription {
     constructor(public testName: string, public funcName: string, public parameterSetNumber: number, public message: string) {
+    }
+}
+
+export class FunctionPropertyHelper {
+    static walkImpl(obj: any, results: Set<string>): void {
+        if (obj == null) {
+            return;
+        }
+        const ownPropertiesOfObj = Object.getOwnPropertyNames(obj);
+        ownPropertiesOfObj.forEach(mem => results.add(mem));
+        const prototype = Object.getPrototypeOf(obj);
+        if (prototype == null) {
+            return null;
+        }
+        const propNames = Object.getOwnPropertyNames(prototype);
+        propNames.forEach(mem => results.add(mem));
+        this.walkImpl(obj.prototype, results);
+        this.walkImpl(prototype, results);
+    }
+    static walk(obj: any): string[] {
+        const results = new Set<string>();
+        this.walkImpl(obj, results);
+        return Array.from(results);
+    }
+    static getFunctionNames(type: any): string[] {
+        return this.walk(type)
+            .filter(mem => {
+                var method = type[mem];
+                return method instanceof Function &&
+                    (method !== type &&
+                        method.prototype !==
+                        Object
+                            .getPrototypeOf(type));
+
+            });
+
+    }
+    static getAllPropertyNames(type: any): string[] {
+        let properties = this.walk(type);
+        if (typeof type === "function") {
+            var functionProps = this.walk(Function);
+            return properties.filter(mem => !functionProps.some(funcProp => funcProp === mem));
+        }
+        return properties.filter(mem => {
+            var method = type[mem];
+            return method !== type &&
+                method.prototype !==
+                Object
+                    .getPrototypeOf(type);
+
+        });
     }
 }

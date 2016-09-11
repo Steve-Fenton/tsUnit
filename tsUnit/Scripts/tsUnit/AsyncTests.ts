@@ -1,5 +1,3 @@
-///<reference path="./promise.d.ts" />
-
 import { TestClass } from './tsUnitAsync';
 
 export class AsyncDeliberateFailureTest extends TestClass {

@@ -67,7 +67,6 @@
     <Folder Include="src\" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="content\Scripts\tsUnit\promise.d.ts" />
     <TypeScriptCompile Include="content\Scripts\tsUnit\tsUnit.ts" />
     <TypeScriptCompile Include="content\Scripts\tsUnit\tsUnitAsync.ts" />
   </ItemGroup>

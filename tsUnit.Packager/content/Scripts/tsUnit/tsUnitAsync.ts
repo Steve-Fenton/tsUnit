@@ -1,6 +1,3 @@
-
-///<reference path="./promise.d.ts" />
-
 import {
     Test,
     TestContext,
@@ -8,8 +5,8 @@ import {
     FakeFactory,
     ITestRunLimiter,
     TestDescription,
-    TestDefinition
-} from './tsUnit';
+    TestDefinition,
+    FunctionPropertyHelper } from './tsUnit';
 
 export {
     Test,
@@ -33,16 +30,17 @@ export class TestAsync extends Test {
         var dynamicTestClass = <any>testClass;
         var testsGroupName = thisTest.name;
 
+        var propertyNames = FunctionPropertyHelper.getFunctionNames(testClass);
         let functions: string[] = [];
-        for (var unitTestName in testClass) {
-            if (!this.isReservedFunctionName(unitTestName)
-                && !(unitTestName.substring(0, this.privateMemberPrefix.length) === this.privateMemberPrefix)
-                && !(typeof dynamicTestClass[unitTestName] !== 'function')
-                && (!testRunLimiter || testRunLimiter.isTestActive(unitTestName))) {
+        for (var j = 0; j < propertyNames.length; j++) {
+            let unitTestName = propertyNames[j];
+            if (!this.isReservedFunctionName(unitTestName) &&
+                !(unitTestName.substring(0, this.privateMemberPrefix.length) === this.privateMemberPrefix) &&
+                !(typeof dynamicTestClass[unitTestName] !== 'function') &&
+                (!testRunLimiter || testRunLimiter.isTestActive(unitTestName))) {
                 functions.push(unitTestName);
             }
         }
-
         let remainingTests = tests.slice(1);
         var promise = this.runAllFunctions(thisTest, functions, testRunLimiter);
 

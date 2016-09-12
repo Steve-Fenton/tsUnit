@@ -7,18 +7,18 @@ import * as AsyncTests from './Scripts/tsUnit/AsyncTests';
 var test = new tsUnit.TestAsync(AsyncTests, Tests, BadTests);
 
 // Run the test, result contains data about the test run
-var result = test.runAsync().then((result) => {
+test.runAsync().then((result) => {
   // get TAP output
   console.log(result.getTapResults());
 
   // show in browser (if there is one)
-  result.showResults('result')
+    result.showResults('result');
 
-  // Or pass an HTMLElement
-  //result.showResults(document.getElementById('result'));
+    // Or pass an HTMLElement
+    //result.showResults(document.getElementById('result'));
 
 
-  // Short version...
-  //var result = new tsUnit.Test(Tests, BadTests).run().showResults('result');
+    // Short version...
+    //var result = new tsUnit.Test(Tests, BadTests).run().showResults('result');
 });
 

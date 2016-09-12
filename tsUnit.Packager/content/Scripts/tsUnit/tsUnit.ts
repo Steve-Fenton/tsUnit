@@ -15,9 +15,15 @@ export class Test {
 
         for (var i = 0; i < testModules.length; i++) {
             var testModule = testModules[i];
-            for (var testClass in testModule) {
-                this.addTestClass(new testModule[testClass](), testClass);
+            if (testModule.hasOwnProperty("name")) {
+                var name = testModule["name"];
+                this.addTestClass(new testModule, name);
+            } else {
+                for (var prop in testModule) {
+                    this.addTestClass(new testModule[prop], prop);
+                }
             }
+
         }
     }
 
@@ -42,7 +48,9 @@ export class Test {
                 continue;
             }
 
-            for (var unitTestName in testClass) {
+            var propertyNames = FunctionPropertyHelper.getFunctionNames(testClass);
+            for (var j = 0; j < propertyNames.length; j++) {
+                let unitTestName = propertyNames[j];
                 if (this.isReservedFunctionName(unitTestName)
                     || (unitTestName.substring(0, this.privateMemberPrefix.length) === this.privateMemberPrefix)
                     || (typeof dynamicTestClass[unitTestName] !== 'function')
@@ -102,11 +110,11 @@ export class Test {
         var template = '1..' + (this.passes.length + this.errors.length).toString() + newLine;
 
         for (var i = 0; i < this.errors.length; i++) {
-            template += 'not ok ' + this.errors[i].message + ' ' + this.errors[i].testName + newLine;
+            template += 'not ok ' + this.errors[i].message + ' ' + this.errors[i].testName + ':' + this.errors[i].funcName + newLine;
         }
 
         for (var i = 0; i < this.passes.length; i++) {
-            template += 'ok ' + this.passes[i].testName + newLine;
+            template += 'ok ' + this.passes[i].testName + ':' + this.passes[i].funcName + newLine;
         }
 
         return template;
@@ -121,12 +129,9 @@ export class Test {
     }
 
     protected isReservedFunctionName(functionName: string): boolean {
-        for (var prop in this.reservedMethodNameContainer) {
-            if (prop === functionName) {
-                return true;
-            }
-        }
-        return false;
+        return FunctionPropertyHelper
+            .getFunctionNames(this.reservedMethodNameContainer)
+            .some(mem => mem === functionName);
     }
 
     private runSingleTest(testClass: TestClass, unitTestName: string, testsGroupName: string, parameters: any[][] = null, parameterSetIndex: number = null) {
@@ -526,12 +531,10 @@ export class FakeFactory {
         this.populateFakeType(fakeType, obj);
         var fake: any = new fakeType();
 
-        for (var member in fake) {
-            if (typeof fake[member] === 'function') {
-                fake[member] = function () { console.log('Default fake called.'); };
-            }
+        var propertyNames = FunctionPropertyHelper.getAllPropertyNames(obj);
+        for (var k = 0; k < propertyNames.length; k++) {
+            fake[propertyNames[k]] = function () { console.log('Default fake called.'); };
         }
-
         var memberNameIndex = 0;
         var memberValueIndex = 1;
 
@@ -544,10 +547,12 @@ export class FakeFactory {
     }
 
     private static populateFakeType(fake: any, toCopy: any) {
-        for (var property in toCopy) {
-            if (toCopy.hasOwnProperty(property)) {
-                fake[property] = toCopy[property];
-            }
+
+        let properties = FunctionPropertyHelper.getAllPropertyNames(toCopy);
+        for (var i = 0; i < properties.length; i++) {
+            var property = properties[i];
+            fake[property] = toCopy[property];
+
         }
 
         var __: any = function () {
@@ -567,5 +572,56 @@ export class TestDefinition {
 
 export class TestDescription {
     constructor(public testName: string, public funcName: string, public parameterSetNumber: number, public message: string) {
+    }
+}
+
+export class FunctionPropertyHelper {
+    static walkImpl(obj: any, results: Set<string>): void {
+        if (obj == null) {
+            return;
+        }
+        const ownPropertiesOfObj = Object.getOwnPropertyNames(obj);
+        ownPropertiesOfObj.forEach(mem => results.add(mem));
+        const prototype = Object.getPrototypeOf(obj);
+        if (prototype == null) {
+            return null;
+        }
+        const propNames = Object.getOwnPropertyNames(prototype);
+        propNames.forEach(mem => results.add(mem));
+        this.walkImpl(obj.prototype, results);
+        this.walkImpl(prototype, results);
+    }
+    static walk(obj: any): string[] {
+        const results = new Set<string>();
+        this.walkImpl(obj, results);
+        return Array.from(results);
+    }
+    static getFunctionNames(type: any): string[] {
+        return this.walk(type)
+            .filter(mem => {
+                var method = type[mem];
+                return method instanceof Function &&
+                    (method !== type &&
+                        method.prototype !==
+                        Object
+                            .getPrototypeOf(type));
+
+            });
+
+    }
+    static getAllPropertyNames(type: any): string[] {
+        let properties = this.walk(type);
+        if (typeof type === "function") {
+            var functionProps = this.walk(Function);
+            return properties.filter(mem => !functionProps.some(funcProp => funcProp === mem));
+        }
+        return properties.filter(mem => {
+            var method = type[mem];
+            return method !== type &&
+                method.prototype !==
+                Object
+                    .getPrototypeOf(type);
+
+        });
     }
 }

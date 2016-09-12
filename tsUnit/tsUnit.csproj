@@ -34,7 +34,6 @@
     <TypeScriptCompile Include="appAsync.ts" />
     <TypeScriptCompile Include="Scripts\tsUnit\AsyncTests.ts" />
     <TypeScriptCompile Include="Scripts\tsUnit\BadTests.ts" />
-    <TypeScriptCompile Include="Scripts\tsUnit\promise.d.ts" />
     <TypeScriptCompile Include="Scripts\tsUnit\Tests.ts" />
     <TypeScriptCompile Include="Scripts\tsUnit\tsUnit.ts">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -55,8 +54,8 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptNoImplicitAny>True</TypeScriptNoImplicitAny>
     <TypeScriptSourceMap>False</TypeScriptSourceMap>
-    <TypeScriptModuleKind>UMD</TypeScriptModuleKind>
-    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
+    <TypeScriptTarget>ES6</TypeScriptTarget>
     <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
     <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
     <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
@@ -69,7 +68,6 @@
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <ProjectExtensions>
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
@@ -112,13 +110,6 @@ XCOPY $(ProjectDir)Scripts\tsUnit\tsUnitAsync.js $(SolutionDir)tsUnit.Packager\c
 
 
 XCOPY $(ProjectDir)Scripts\tsUnit\tsUnitAsync.js $(SolutionDir)tsUnit.External.Packager\content\Scripts\tsUnit /y
-
-
-
-XCOPY $(ProjectDir)Scripts\tsUnit\promise.d.ts $(SolutionDir)tsUnit.Packager\content\Scripts\tsUnit /y
-
-
-XCOPY $(ProjectDir)Scripts\tsUnit\promise.d.ts $(SolutionDir)tsUnit.External.Packager\content\Scripts\tsUnit /y
 
 </PostBuildEvent>
   </PropertyGroup>

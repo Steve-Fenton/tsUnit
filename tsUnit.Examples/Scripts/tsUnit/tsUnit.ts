@@ -110,11 +110,11 @@ export class Test {
         var template = '1..' + (this.passes.length + this.errors.length).toString() + newLine;
 
         for (var i = 0; i < this.errors.length; i++) {
-            template += 'not ok ' + this.errors[i].message + ' ' + this.errors[i].testName + newLine;
+            template += 'not ok ' + this.errors[i].message + ' ' + this.errors[i].testName + ':' + this.errors[i].funcName + newLine;
         }
 
         for (var i = 0; i < this.passes.length; i++) {
-            template += 'ok ' + this.passes[i].testName + newLine;
+            template += 'ok ' + this.passes[i].testName + ':' + this.passes[i].funcName + newLine;
         }
 
         return template;

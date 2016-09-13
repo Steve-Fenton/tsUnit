@@ -58,6 +58,7 @@
     <TypeScriptCompile Include="Scripts\FizzBuzzParameterisedTests.ts" />
     <TypeScriptCompile Include="Scripts\FizzBuzzTests.ts" />
     <TypeScriptCompile Include="Scripts\tsUnit\tsUnit.ts" />
+    <TypeScriptCompile Include="Scripts\tsUnit\tsUnitAsync.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.css" />

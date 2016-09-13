@@ -3,12 +3,12 @@
     "name": "tsunit.external",
     "description": "Unit testing framework for TypeScript.",
     "keywords": [
-        "tsunit",
-        "typescript",
-        "unit",
-        "testing"
+      "tsunit",
+      "typescript",
+      "unit",
+      "testing"
     ],
-    "version": "2.0.8",
+    "version": "2.0.9",
     "homepage": "https://github.com/Steve-Fenton/tsUnit",
     "bugs": "https://github.com/Steve-Fenton/tsUnit/issues",
     "license": "Apache-2.0",

@@ -8,7 +8,7 @@
       "unit",
       "testing"
     ],
-    "version": "2.0.9",
+    "version": "2.0.10",
     "homepage": "https://github.com/Steve-Fenton/tsUnit",
     "bugs": "https://github.com/Steve-Fenton/tsUnit/issues",
     "license": "Apache-2.0",

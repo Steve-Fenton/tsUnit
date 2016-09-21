@@ -71,7 +71,7 @@
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptNoImplicitAny>True</TypeScriptNoImplicitAny>
-    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptTarget>ES6</TypeScriptTarget>
     <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
     <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
     <TypeScriptModuleKind>UMD</TypeScriptModuleKind>

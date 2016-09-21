@@ -2,3 +2,4 @@ C:\Code\GitHub\Repos\tsUnit\tsUnit.Examples\bin\tsUnit.Examples.dll
 C:\Code\GitHub\Repos\tsUnit\tsUnit.Examples\bin\tsUnit.Examples.pdb
 C:\Code\GitHub\Repos\tsUnit\tsUnit.Examples\obj\Release\tsUnit.Examples.dll
 C:\Code\GitHub\Repos\tsUnit\tsUnit.Examples\obj\Release\tsUnit.Examples.pdb
+C:\Code\GitHub\Repos\tsUnit\tsUnit.Examples\obj\Release\tsUnit.Examples.csprojResolveAssemblyReference.cache

@@ -1,2 +1,1 @@
-C:\Code\GitHub\Repos\tsUnit\tsUnit.Node.Examples\obj\Debug\tsUnit.Node.Examples.njsprojResolveAssemblyReference.cache
 C:\Code\GitHub\Repos\tsUnit\tsUnit.Node.Examples\bin\Microsoft.NodejsTools.WebRole.dll

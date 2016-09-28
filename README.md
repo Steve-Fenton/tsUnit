@@ -84,7 +84,7 @@ Or you can use the TAP (Test Anything Protocol) output:
 
 ```TypeScript
     // TAP output...
-    var tap = new tsUnit.Test(CalculationsTests).getTapResults();
+    var tap = new tsUnit.Test(CalculationsTests).run().getTapResults();
     
     console.log(tap);
 ```

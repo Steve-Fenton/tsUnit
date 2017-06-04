@@ -75,9 +75,9 @@ define(["require", "exports", './tsUnit', './tsUnit'], function (require, export
             return Promise.resolve(this);
         }
         runSingleTestAsync(testClass, unitTestName, testsGroupName, parameters = null, parameterSetIndex = null) {
-            testClass.setUp && testClass.setUp();
             // running everything inside .then saves us a try/catch
             return Promise.resolve().then(() => {
+                testClass.setUp && testClass.setUp();
                 var dynamicTestClass = testClass;
                 var args = (parameterSetIndex !== null) ? parameters[parameterSetIndex] : null;
                 return dynamicTestClass[unitTestName].apply(testClass, args);

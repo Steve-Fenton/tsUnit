@@ -3,3 +3,7 @@ C:\Code\GitHub\Repos\tsUnit\tsUnit.Packager\bin\Release\tsUnit.Packager.pdb
 C:\Code\GitHub\Repos\tsUnit\tsUnit.Packager\obj\Release\tsUnit.Packager.dll
 C:\Code\GitHub\Repos\tsUnit\tsUnit.Packager\obj\Release\tsUnit.Packager.pdb
 C:\Code\GitHub\Repos\tsUnit\tsUnit.Packager\obj\Release\tsUnit.Packager.csprojResolveAssemblyReference.cache
+C:\code\github\tsUnit\tsUnit.Packager\bin\Release\tsUnit.Packager.dll
+C:\code\github\tsUnit\tsUnit.Packager\bin\Release\tsUnit.Packager.pdb
+C:\code\github\tsUnit\tsUnit.Packager\obj\Release\tsUnit.Packager.dll
+C:\code\github\tsUnit\tsUnit.Packager\obj\Release\tsUnit.Packager.pdb

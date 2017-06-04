@@ -110,10 +110,9 @@ export class TestAsync extends Test {
         parameters: any[][] = null, 
         parameterSetIndex: number = null
     ):Promise<this> {
-        testClass.setUp && testClass.setUp();
-
         // running everything inside .then saves us a try/catch
-        return Promise.resolve().then(()=>{
+        return Promise.resolve().then(() => {
+            testClass.setUp && testClass.setUp();
             var dynamicTestClass: any = testClass;
             var args = (parameterSetIndex !== null) ? parameters[parameterSetIndex] : null;
             return dynamicTestClass[unitTestName].apply(testClass, args);

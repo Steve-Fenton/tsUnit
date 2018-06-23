@@ -1,5 +1,15 @@
-define(["require", "exports", './tsUnitAsync'], function (require, exports, tsUnitAsync_1) {
+(function (factory) {
+    if (typeof module === "object" && typeof module.exports === "object") {
+        var v = factory(require, exports);
+        if (v !== undefined) module.exports = v;
+    }
+    else if (typeof define === "function" && define.amd) {
+        define(["require", "exports", "./tsUnitAsync"], factory);
+    }
+})(function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    const tsUnitAsync_1 = require("./tsUnitAsync");
     class AsyncDeliberateFailureTest extends tsUnitAsync_1.TestClass {
         testThrowsAndShouldFail() {
             return Promise.resolve(12).then(() => {

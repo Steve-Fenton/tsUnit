@@ -30,9 +30,12 @@
 /tsUnit.Examples/app.js
 /tsUnit.External.Packager/NuGet.log
 /tsUnit.External.Packager/tsUnit.External.Packager.csproj.user
-/tsUnit.External.Packager/tsUnit.external.2.0.1.nupkg.bak
-/tsUnit.External.Packager/tsUnit.external.2.0.1.nupkg
+
 /tsUnit.Packager/tsUnit.Packager.csproj.user
-/tsUnit.Packager/tsUnit.2.0.1.nupkg.bak
-/tsUnit.Packager/tsUnit.2.0.1.nupkg
 /tsUnit.Packager/NuGet.log
+/.vs/tsUnit
+/tsUnit.Examples/obj/Release
+/tsUnit.Node.Examples/obj
+/tsUnit.Packager/obj/Release
+/tsUnit.Packager/*.nupkg
+/tsUnit.Packager/*.bak

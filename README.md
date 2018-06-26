@@ -2,7 +2,7 @@
 
 Choose a Version!
 
- - If you need ES5 support, please use v2.0.10
+ - If you need ES5 support, please use v2.0.10 [view the README for v2.0.10](https://github.com/Steve-Fenton/tsUnit/blob/02edc9ee22d17b5d8329035c1c5462dfb3711dd8/README.md)
  - v2.0.11 onwards is targeted at ES2015 and above and uses Promises
 
 tsUnit is a unit testing framework for TypeScript, written in TypeScript. It allows you to encapsulate your test functions in classes and modules.

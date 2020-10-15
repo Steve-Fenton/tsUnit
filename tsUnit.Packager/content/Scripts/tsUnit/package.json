@@ -8,11 +8,11 @@
       "unit",
       "testing"
     ],
-    "version": "2.1.1",
+    "version": "3.7.2",
     "homepage": "https://github.com/Steve-Fenton/tsUnit",
     "bugs": "https://github.com/Steve-Fenton/tsUnit/issues",
     "license": "Apache-2.0",
-    "files": [ "tsUnit.ts", "tsUnitAsync.ts"],
+    "files": [ "tsUnit.d.ts", "tsunit.js", "tsUnitAsync.d.ts", "tsUnitAsync.js"],
     "repository": {
         "url": "https://github.com/Steve-Fenton/tsUnit"
     },

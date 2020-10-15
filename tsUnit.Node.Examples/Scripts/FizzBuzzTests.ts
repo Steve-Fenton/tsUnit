@@ -1,5 +1,5 @@
-import tsUnit = require('../node_modules/tsunit.external/tsUnit');
-import FizzBuzz = require('./FizzBuzz');
+import tsUnit = require('../node_modules/tsunit.external/tsUnit.js');
+import FizzBuzz = require('./FizzBuzz.js');
 
 var target = new FizzBuzz();
 

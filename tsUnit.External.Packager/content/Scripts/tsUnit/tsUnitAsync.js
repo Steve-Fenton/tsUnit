@@ -1,5 +1,16 @@
-define(["require", "exports", './tsUnit', './tsUnit'], function (require, exports, tsUnit_1, tsUnit_2) {
+(function (factory) {
+    if (typeof module === "object" && typeof module.exports === "object") {
+        var v = factory(require, exports);
+        if (v !== undefined) module.exports = v;
+    }
+    else if (typeof define === "function" && define.amd) {
+        define(["require", "exports", "./tsUnit", "./tsUnit"], factory);
+    }
+})(function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    const tsUnit_1 = require("./tsUnit");
+    var tsUnit_2 = require("./tsUnit");
     exports.Test = tsUnit_2.Test;
     exports.TestContext = tsUnit_2.TestContext;
     exports.TestClass = tsUnit_2.TestClass;

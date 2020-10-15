@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>tsUnit</id>
-    <version>2.1.1</version>
+    <version>3.7.2</version>
     <title>tsUnit</title>
     <authors>Steve Fenton</authors>
     <owners>Steve Fenton</owners>
@@ -10,7 +10,7 @@
       An xUnit style framework for TypeScript with auto-discovery, async tests, and assertions.
     </description>
     <releaseNotes>
-      ES2015 compatibility (Will Melani)
+      Updated TS version
     </releaseNotes>
     <summary>
       An xUnit style framework for TypeScript with auto-discovery, async tests, and assertions.

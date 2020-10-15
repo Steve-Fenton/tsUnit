@@ -1,5 +1,5 @@
 "use strict";
-var FizzBuzz = (function () {
+var FizzBuzz = /** @class */ (function () {
     function FizzBuzz() {
     }
     FizzBuzz.prototype.generate = function (input) {

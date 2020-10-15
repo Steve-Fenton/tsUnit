@@ -1,5 +1,5 @@
-﻿import * as tsUnit from './node_modules/tsunit.external/tsUnit';
-import * as FizzBuzzTests from './Scripts/FizzBuzzTests';
+﻿import * as tsUnit from './node_modules/tsunit.external/tsUnit.js';
+import * as FizzBuzzTests from './Scripts/FizzBuzzTests.js';
 import * as readline from 'readline';
 
 // Instantiate tsUnit and pass in modules that contain tests

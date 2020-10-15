@@ -1,6 +1,7 @@
 ﻿{
   "compilerOptions": {
     "module": "umd",
-    "target": "es2015"
+    "target": "ES2019",
+    "declaration": true
   }
 }

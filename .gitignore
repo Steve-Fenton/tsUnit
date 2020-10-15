@@ -39,3 +39,4 @@
 /tsUnit.Packager/obj/Release
 /tsUnit.Packager/*.nupkg
 /tsUnit.Packager/*.bak
+/tsUnit/obj/Debug

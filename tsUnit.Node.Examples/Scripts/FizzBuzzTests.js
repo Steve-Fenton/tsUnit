@@ -1,37 +1,28 @@
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-var tsUnit = require('../node_modules/tsunit.external/tsUnit');
-var FizzBuzz = require('./FizzBuzz');
+Object.defineProperty(exports, "__esModule", { value: true });
+const tsUnit = require("../node_modules/tsunit.external/tsUnit.js");
+const FizzBuzz = require("./FizzBuzz.js");
 var target = new FizzBuzz();
-var FizzBuzzTests = (function (_super) {
-    __extends(FizzBuzzTests, _super);
-    function FizzBuzzTests() {
-        _super.apply(this, arguments);
-    }
-    FizzBuzzTests.prototype.normalNumbersReturnOriginalNumber = function () {
+class FizzBuzzTests extends tsUnit.TestClass {
+    normalNumbersReturnOriginalNumber() {
         this.areIdentical(1, target.generate(1));
         this.areIdentical(2, target.generate(2));
         this.areIdentical(4, target.generate(4));
-    };
-    FizzBuzzTests.prototype.numberDivisibleByThreeShouldReturnFizz = function () {
+    }
+    numberDivisibleByThreeShouldReturnFizz() {
         this.areIdentical("Fizz", target.generate(3));
         this.areIdentical("Fizz", target.generate(6));
         this.areIdentical("Fizz", target.generate(9));
-    };
-    FizzBuzzTests.prototype.numbersDivisibleByFiveShouldReturnBuzz = function () {
+    }
+    numbersDivisibleByFiveShouldReturnBuzz() {
         this.areIdentical("Buzz", target.generate(5));
         this.areIdentical("Buzz", target.generate(10));
         this.areIdentical("Buzz", target.generate(20));
-    };
-    FizzBuzzTests.prototype.numbersDivisibleByThreeAndFiveShouldReturnFizzBuzz = function () {
+    }
+    numbersDivisibleByThreeAndFiveShouldReturnFizzBuzz() {
         this.areIdentical("FizzBuzz", target.generate(15));
         this.areIdentical("FizzBuzz", target.generate(30));
         this.areIdentical("FizzBuzz", target.generate(45));
-    };
-    return FizzBuzzTests;
-}(tsUnit.TestClass));
+    }
+}
 exports.FizzBuzzTests = FizzBuzzTests;

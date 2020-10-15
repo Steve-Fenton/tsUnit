@@ -1,14 +1,16 @@
 (function (factory) {
-    if (typeof module === 'object' && typeof module.exports === 'object') {
-        var v = factory(require, exports); if (v !== undefined) module.exports = v;
+    if (typeof module === "object" && typeof module.exports === "object") {
+        var v = factory(require, exports);
+        if (v !== undefined) module.exports = v;
     }
-    else if (typeof define === 'function' && define.amd) {
-        define(["require", "exports", './tsUnit', './tsUnit'], factory);
+    else if (typeof define === "function" && define.amd) {
+        define(["require", "exports", "./tsUnit", "./tsUnit"], factory);
     }
 })(function (require, exports) {
     "use strict";
-    const tsUnit_1 = require('./tsUnit');
-    var tsUnit_2 = require('./tsUnit');
+    Object.defineProperty(exports, "__esModule", { value: true });
+    const tsUnit_1 = require("./tsUnit");
+    var tsUnit_2 = require("./tsUnit");
     exports.Test = tsUnit_2.Test;
     exports.TestContext = tsUnit_2.TestContext;
     exports.TestClass = tsUnit_2.TestClass;
@@ -84,9 +86,8 @@
             return Promise.resolve(this);
         }
         runSingleTestAsync(testClass, unitTestName, testsGroupName, parameters = null, parameterSetIndex = null) {
-            testClass.setUp && testClass.setUp();
-            // running everything inside .then saves us a try/catch
             return Promise.resolve().then(() => {
+                testClass.setUp && testClass.setUp();
                 var dynamicTestClass = testClass;
                 var args = (parameterSetIndex !== null) ? parameters[parameterSetIndex] : null;
                 return dynamicTestClass[unitTestName].apply(testClass, args);
@@ -117,4 +118,3 @@
     }
     exports.TestAsync = TestAsync;
 });
-//# sourceMappingURL=tsUnitAsync.js.map

@@ -10,7 +10,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -42,10 +42,10 @@
     <TypeScriptCompile Include="Scripts\tsUnit\tsUnitAsync.ts" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <Content Include="tsconfig.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="tsconfig.json" />
+    <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -91,28 +91,16 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>XCOPY $(ProjectDir)Scripts\tsUnit\tsUnit.ts $(SolutionDir)tsUnit.Packager\content\Scripts\tsUnit /y
-
-
-XCOPY $(ProjectDir)Scripts\tsUnit\tsUnit.ts $(SolutionDir)tsUnit.External.Packager\content\Scripts\tsUnit /y
-
+    <PostBuildEvent>XCOPY $(ProjectDir)Scripts\tsUnit\tsUnit.d.ts $(SolutionDir)tsUnit.Packager\content\Scripts\tsUnit /y
+XCOPY $(ProjectDir)Scripts\tsUnit\tsUnit.d.ts $(SolutionDir)tsUnit.External.Packager\content\Scripts\tsUnit /y
 
 XCOPY $(ProjectDir)Scripts\tsUnit\tsUnit.js $(SolutionDir)tsUnit.Packager\content\Scripts\tsUnit /y
-
-
 XCOPY $(ProjectDir)Scripts\tsUnit\tsUnit.js $(SolutionDir)tsUnit.External.Packager\content\Scripts\tsUnit /y
 
-
-
-XCOPY $(ProjectDir)Scripts\tsUnit\tsUnitAsync.ts $(SolutionDir)tsUnit.Packager\content\Scripts\tsUnit /y
-
-
-XCOPY $(ProjectDir)Scripts\tsUnit\tsUnitAsync.ts $(SolutionDir)tsUnit.External.Packager\content\Scripts\tsUnit /y
-
+XCOPY $(ProjectDir)Scripts\tsUnit\tsUnitAsync.d.ts $(SolutionDir)tsUnit.Packager\content\Scripts\tsUnit /y
+XCOPY $(ProjectDir)Scripts\tsUnit\tsUnitAsync.d.ts $(SolutionDir)tsUnit.External.Packager\content\Scripts\tsUnit /y
 
 XCOPY $(ProjectDir)Scripts\tsUnit\tsUnitAsync.js $(SolutionDir)tsUnit.Packager\content\Scripts\tsUnit /y
-
-
 XCOPY $(ProjectDir)Scripts\tsUnit\tsUnitAsync.js $(SolutionDir)tsUnit.External.Packager\content\Scripts\tsUnit /y
 
 </PostBuildEvent>

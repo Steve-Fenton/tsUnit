@@ -9,11 +9,15 @@ tsUnit is a unit testing framework for TypeScript, written in TypeScript. It all
 
 Install via NuGet:
 
-```PM> Install-Package tsUnit ```
+```
+PM> Install-Package tsUnit 
+```
 
 Install via NPM
 
-```> npm i tsunit.external```
+```
+> npm i tsunit.external
+```
 
 NOTE: Version 2.0 has breaking changes, to improve re-use between different module systems. Please read the below to see how to use version 2.0.
 
